@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOMAIN=http://ec2-13-125-30-88.ap-northeast-2.compute.amazonaws.com/auth/profile
+DOMAIN=http://ec2-3-35-151-134.ap-northeast-2.compute.amazonaws.com/auth/profile
 
 # 쉬고있는 profile 찾기
 function find_idle_profile() {
