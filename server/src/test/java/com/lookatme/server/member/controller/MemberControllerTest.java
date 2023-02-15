@@ -38,6 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.lookatme.server.util.ApiDocumentUtils.getRequestPreprocessor;
+import static com.lookatme.server.util.ApiDocumentUtils.getResponsePreprocessor;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -118,8 +120,8 @@ class MemberControllerTest {
         actions.andExpect(status().isOk())
                 .andDo(document(
                         "get-member",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("memberId").description("회원 번호")
                         ),
@@ -166,8 +168,8 @@ class MemberControllerTest {
         actions.andExpect(status().isCreated())
                 .andDo(document(
                         "post-member",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("email").description("이메일"),
@@ -226,8 +228,8 @@ class MemberControllerTest {
         actions.andExpect(status().isOk())
                 .andDo(document(
                         "patch-member",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("memberId").description("회원번호")
                         ),
@@ -294,8 +296,8 @@ class MemberControllerTest {
         actions.andExpect(status().isNoContent())
                 .andDo(document(
                         "delete-member",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("memberId").description("회원 번호")
                         )
@@ -337,8 +339,8 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document(
                                 "post-member-follow",
-                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                getRequestPreprocessor(),
+                                getResponsePreprocessor(),
                                 requestParameters(
                                         parameterWithName("type").description("팔로우 기능 구분(up/down)"),
                                         parameterWithName("op").description("상대방 회원 번호")
@@ -379,8 +381,8 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document(
                         "get-members",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("페이지"),
@@ -443,8 +445,8 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document(
                         "get-follow-members",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("페이지"),
@@ -495,8 +497,8 @@ class MemberControllerTest {
         actions.andExpect(status().isOk())
                 .andDo(document(
                         "post-member-profile",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestParts(
                                 partWithName("image").description("첨부 이미지(jpg/png) - 최대 3MB")
                         ),

@@ -5,9 +5,9 @@
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
-Main-project_35조
+Main-project_35조 API 명세서
 
-v1.0.0, 2023.01.29
+2023.02.16 update.
 
 ***
 == CommentController
