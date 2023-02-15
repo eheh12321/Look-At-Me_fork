@@ -6,12 +6,11 @@ on:
       - main
       - dev
       - feat/be/cloud
-      - feat/be/actions
     paths:
       - server/**
 
 env:
-  S3_BUCKET_NAME: my-springboot-build
+  S3_BUCKET_NAME: my-spring-build-bucket
 
 jobs:
   Gradle-build:
