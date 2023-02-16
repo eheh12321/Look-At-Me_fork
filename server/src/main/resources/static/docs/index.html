@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Look At Me</h1>
 <div class="details">
-<span id="revnumber">version 0.0.1-SNAPSHOT-20230216022501</span>
+<span id="revnumber">version 0.0.1-SNAPSHOT-20230216125702</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -515,7 +515,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/comment?_csrf=748dae5c-8b56-4e80-967b-587c797f9e05' -i -X POST \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/comment?_csrf=23e30293-6038-47ac-ae29-1b44baed7e12' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -527,11 +527,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /comment?_csrf=748dae5c-8b56-4e80-967b-587c797f9e05 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /comment?_csrf=23e30293-6038-47ac-ae29-1b44baed7e12 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 55
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "boardId" : "1",
@@ -718,7 +718,7 @@ Content-Length: 391
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/comment/1?_csrf=53c6e934-faad-4120-8725-17854b8af4e4' -i -X PATCH \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/comment/1?_csrf=a54b9318-f97e-4373-b219-4e368351cbd4' -i -X PATCH \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -729,11 +729,11 @@ Content-Length: 391
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /comment/1?_csrf=53c6e934-faad-4120-8725-17854b8af4e4 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /comment/1?_csrf=a54b9318-f97e-4373-b219-4e368351cbd4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 35
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "content" : "댓글 내용"
@@ -932,7 +932,7 @@ Content-Length: 391
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/comment/1?_csrf=3e3c07c7-65f1-45e0-ba75-a031431e7eed' -i -X GET \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/comment/1?_csrf=8f46662c-ee56-4422-989c-2b30e4397096' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'</code></pre>
 </div>
@@ -940,10 +940,10 @@ Content-Length: 391
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /comment/1?_csrf=3e3c07c7-65f1-45e0-ba75-a031431e7eed HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /comment/1?_csrf=8f46662c-ee56-4422-989c-2b30e4397096 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1108,7 +1108,7 @@ Content-Length: 356
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/comment/board/1?page=1&amp;size=10' -i -X GET \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/comment/board/1?page=1&amp;size=10' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'</code></pre>
 </div>
@@ -1119,7 +1119,7 @@ Content-Length: 356
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /comment/board/1?page=1&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1364,14 +1364,14 @@ Content-Length: 905
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/comment/1' -i -X DELETE</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/comment/1' -i -X DELETE</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /comment/1 HTTP/1.1
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1423,7 +1423,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 130
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "email" : "email@com",
@@ -1581,7 +1581,7 @@ Content-Length: 253
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/1 HTTP/1.1
 Accept: application/json
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1713,7 +1713,7 @@ Content-Length: 274
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members?page=1&amp;size=10 HTTP/1.1
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1871,7 +1871,7 @@ Content-Length: 406
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /members/follow?page=1&amp;size=10&amp;memberId=2&amp;tab=followee HTTP/1.1
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2038,10 +2038,10 @@ Content-Length: 406
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /members/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NTEsImV4cCI6MTY3NjUwMzU1MX0.xI3ZE4v4AqCVAWtMhCLbjnLQizY_NdBuugeIDZ0B5aQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODksImV4cCI6MTY3NjU0MTQ4OX0.t4wIRYcJGeqRfGna5ewLSbO8oo8_5m1-_MMhx3023YE
 Accept: application/json
 Content-Length: 79
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "nickname" : "수정된 닉네임",
@@ -2206,8 +2206,8 @@ Content-Length: 272
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /members/profile HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NTEsImV4cCI6MTY3NjUwMzU1MX0.xI3ZE4v4AqCVAWtMhCLbjnLQizY_NdBuugeIDZ0B5aQ
-Host: 13.125.30.88
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODgsImV4cCI6MTY3NjU0MTQ4OH0.wMgMdKav576C_-gmAU4AxDuuJ24_m6WXTRTGpT0hk1I
+Host: myprojectsite.shop
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Content-Disposition: form-data; name=image; filename=testImage.png
@@ -2340,8 +2340,8 @@ Content-Length: 253
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /members/follow HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NTEsImV4cCI6MTY3NjUwMzU1MX0.xI3ZE4v4AqCVAWtMhCLbjnLQizY_NdBuugeIDZ0B5aQ
-Host: 13.125.30.88
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODgsImV4cCI6MTY3NjU0MTQ4OH0.wMgMdKav576C_-gmAU4AxDuuJ24_m6WXTRTGpT0hk1I
+Host: myprojectsite.shop
 Content-Type: application/x-www-form-urlencoded
 
 type=up&amp;op=1</code></pre>
@@ -2377,8 +2377,8 @@ type=up&amp;op=1</code></pre>
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /members/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NTEsImV4cCI6MTY3NjUwMzU1MX0.xI3ZE4v4AqCVAWtMhCLbjnLQizY_NdBuugeIDZ0B5aQ
-Host: 13.125.30.88</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODgsImV4cCI6MTY3NjU0MTQ4OH0.wMgMdKav576C_-gmAU4AxDuuJ24_m6WXTRTGpT0hk1I
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2434,7 +2434,7 @@ X-Frame-Options: SAMEORIGIN
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 58
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "email" : "email@com",
@@ -2476,8 +2476,8 @@ Host: 13.125.30.88
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5MTYsImV4cCI6MTY3NjUwMzUxNn0.fpgArxJGnUXO-U3jFBNkGedDHAYug2okA3DqiJKx5xs
-Refresh: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbEBjb20vTk9ORSIsImlhdCI6MTY3NjQ4MTkxNiwiZXhwIjoxNjc2NTAzNTE2fQ.2ST3_8_Du5bkI_vH6Khtm9Im-b_jd9k73HM5uQuSTzs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4NDQsImV4cCI6MTY3NjU0MTQ0NH0.B1OusPChh5x1aWoSLbyRjsRyMtaLhELFyFm1NwcqprU
+Refresh: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbEBjb20vTk9ORSIsImlhdCI6MTY3NjUxOTg0NCwiZXhwIjoxNjc2NTQxNDQ0fQ.ejImu8noH57wXKnLUofuXvxFybIeb1wBmHzWT3DTbMo
 Content-Type: application/json;charset=utf-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2502,8 +2502,8 @@ Content-Length: 105
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /auth/jwt-test HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5MTcsImV4cCI6MTY3NjUwMzUxN30.-GGY_Y0E2fsHCEm9W3BjikLqg-gaqJZ4xqz3MIdfCe8
-Host: 13.125.30.88</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4NDUsImV4cCI6MTY3NjU0MTQ0NX0.Qv7k28O6ECSh3XvTjvXTgSPO-h4pWnapbgLm-n0XNGM
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2536,7 +2536,7 @@ MemberPrincipal(memberId=1, account=email@com/NONE, roles=[USER])</code></pre>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/message' -i -X POST \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/message' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -2552,7 +2552,7 @@ MemberPrincipal(memberId=1, account=email@com/NONE, roles=[USER])</code></pre>
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 89
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "content" : "메시지 내용",
@@ -2716,7 +2716,7 @@ Content-Length: 405
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/message/1' -i -X GET \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/message/1' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'</code></pre>
 </div>
@@ -2727,7 +2727,7 @@ Content-Length: 405
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /message/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2869,7 +2869,7 @@ Content-Length: 405
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/message/received/3?page=1&amp;size=10' -i -X GET \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/message/received/3?page=1&amp;size=10' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'</code></pre>
 </div>
@@ -2880,7 +2880,7 @@ Content-Length: 405
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /message/received/3?page=1&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3094,7 +3094,7 @@ Content-Length: 987
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/message/room' -i -X GET \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/message/room' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'</code></pre>
 </div>
@@ -3105,7 +3105,7 @@ Content-Length: 987
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /message/room HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3250,14 +3250,14 @@ Content-Length: 816
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/message/received/1' -i -X DELETE</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/message/received/1' -i -X DELETE</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /message/received/1 HTTP/1.1
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3300,14 +3300,14 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/message/sent/1' -i -X DELETE</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/message/sent/1' -i -X DELETE</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /message/sent/1 HTTP/1.1
-Host: 13.125.30.88</code></pre>
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3357,8 +3357,8 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /boards/1 HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8
-Host: 13.125.30.88</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODIsImV4cCI6MTY3NjU0MTQ4Mn0.mpNWdCXQeI9jW41MPzw-Er_0_sbm8hZB5TiQ6yVAHoE
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3400,8 +3400,8 @@ Content-Length: 1294
   "boardId" : 1,
   "userImage" : "게시글 사진 링크",
   "content" : "게시글 본문",
-  "createdDate" : "2023-02-16T02:25:47.3720014",
-  "updatedDate" : "2023-02-16T02:25:47.3720014",
+  "createdDate" : "2023-02-16T12:58:02.3173784",
+  "updatedDate" : "2023-02-16T12:58:02.3173784",
   "likeCnt" : 0,
   "like" : false,
   "member" : {
@@ -3435,8 +3435,8 @@ Content-Length: 1294
   "comments" : [ {
     "commentId" : 1,
     "content" : "댓글 내용",
-    "createdDate" : "2023-02-16T02:25:47.3710016",
-    "updatedDate" : "2023-02-16T02:25:47.3710016",
+    "createdDate" : "2023-02-16T12:58:02.3163806",
+    "updatedDate" : "2023-02-16T12:58:02.3163806",
     "member" : {
       "memberId" : 1,
       "nickname" : "nickname",
@@ -3657,8 +3657,8 @@ Content-Length: 1294
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /boards?page=1&amp;size=10 HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8
-Host: 13.125.30.88</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODIsImV4cCI6MTY3NjU0MTQ4Mn0.mpNWdCXQeI9jW41MPzw-Er_0_sbm8hZB5TiQ6yVAHoE
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3682,8 +3682,8 @@ Content-Length: 1521
     "boardId" : 1,
     "userImage" : "게시글 사진 링크",
     "content" : "게시글 본문",
-    "createdDate" : "2023-02-16T02:25:47.6775647",
-    "updatedDate" : "2023-02-16T02:25:47.6775647",
+    "createdDate" : "2023-02-16T12:58:02.8953818",
+    "updatedDate" : "2023-02-16T12:58:02.8953818",
     "likeCnt" : 0,
     "like" : false,
     "member" : {
@@ -3717,8 +3717,8 @@ Content-Length: 1521
     "comments" : [ {
       "commentId" : 1,
       "content" : "댓글 내용",
-      "createdDate" : "2023-02-16T02:25:47.6775647",
-      "updatedDate" : "2023-02-16T02:25:47.6775647",
+      "createdDate" : "2023-02-16T12:58:02.8953818",
+      "updatedDate" : "2023-02-16T12:58:02.8953818",
       "member" : {
         "memberId" : 1,
         "nickname" : "nickname",
@@ -3967,9 +3967,9 @@ Content-Length: 1521
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /boards HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODMsImV4cCI6MTY3NjU0MTQ4M30.YAdZyVd0nquPOFW2fpiIB1beAKi6hV-xMnFqZk7dldk
 Content-Length: 701
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "content" : "게시글 본문",
@@ -4084,14 +4084,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: SAMEORIGIN
-Content-Length: 1294
+Content-Length: 1286
 
 {
   "boardId" : 1,
   "userImage" : "게시글 사진 링크",
   "content" : "게시글 본문",
-  "createdDate" : "2023-02-16T02:25:47.7725657",
-  "updatedDate" : "2023-02-16T02:25:47.7725657",
+  "createdDate" : "2023-02-16T12:58:03.09939",
+  "updatedDate" : "2023-02-16T12:58:03.09939",
   "likeCnt" : 0,
   "like" : false,
   "member" : {
@@ -4125,8 +4125,8 @@ Content-Length: 1294
   "comments" : [ {
     "commentId" : 1,
     "content" : "댓글 내용",
-    "createdDate" : "2023-02-16T02:25:47.7725657",
-    "updatedDate" : "2023-02-16T02:25:47.7725657",
+    "createdDate" : "2023-02-16T12:58:03.09939",
+    "updatedDate" : "2023-02-16T12:58:03.09939",
     "member" : {
       "memberId" : 1,
       "nickname" : "nickname",
@@ -4348,9 +4348,9 @@ Content-Length: 1294
 <pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /boards/1 HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODIsImV4cCI6MTY3NjU0MTQ4Mn0.mpNWdCXQeI9jW41MPzw-Er_0_sbm8hZB5TiQ6yVAHoE
 Content-Length: 723
-Host: 13.125.30.88
+Host: myprojectsite.shop
 
 {
   "content" : "게시글 본문",
@@ -4496,8 +4496,8 @@ Content-Length: 1294
   "boardId" : 1,
   "userImage" : "게시글 사진 링크",
   "content" : "게시글 본문",
-  "createdDate" : "2023-02-16T02:25:47.6000487",
-  "updatedDate" : "2023-02-16T02:25:47.6000487",
+  "createdDate" : "2023-02-16T12:58:02.6793794",
+  "updatedDate" : "2023-02-16T12:58:02.6793794",
   "likeCnt" : 0,
   "like" : false,
   "member" : {
@@ -4531,8 +4531,8 @@ Content-Length: 1294
   "comments" : [ {
     "commentId" : 1,
     "content" : "댓글 내용",
-    "createdDate" : "2023-02-16T02:25:47.6000487",
-    "updatedDate" : "2023-02-16T02:25:47.6000487",
+    "createdDate" : "2023-02-16T12:58:02.6793794",
+    "updatedDate" : "2023-02-16T12:58:02.6793794",
     "member" : {
       "memberId" : 1,
       "nickname" : "nickname",
@@ -4751,16 +4751,16 @@ Content-Length: 1294
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/boards/1' -i -X DELETE \
-    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/boards/1' -i -X DELETE \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODIsImV4cCI6MTY3NjU0MTQ4Mn0.mpNWdCXQeI9jW41MPzw-Er_0_sbm8hZB5TiQ6yVAHoE'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /boards/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8
-Host: 13.125.30.88</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODIsImV4cCI6MTY3NjU0MTQ4Mn0.mpNWdCXQeI9jW41MPzw-Er_0_sbm8hZB5TiQ6yVAHoE
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4803,9 +4803,9 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://13.125.30.88/boards/1/like' -i -X POST \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'https://myprojectsite.shop/boards/1/like' -i -X POST \
     -H 'Accept: application/json' \
-    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8'</code></pre>
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODMsImV4cCI6MTY3NjU0MTQ4M30.YAdZyVd0nquPOFW2fpiIB1beAKi6hV-xMnFqZk7dldk'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -4813,8 +4813,8 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /boards/1/like HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY0ODE5NDcsImV4cCI6MTY3NjUwMzU0N30.Q5yCMRs7R-DUpsEy9fySCvOngtJghRprlBlnHgfeWM8
-Host: 13.125.30.88</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sImFjY291bnQiOnsiZW1haWwiOiJlbWFpbEBjb20iLCJvYXV0aFBsYXRmb3JtIjoiTk9ORSJ9LCJtZW1iZXJJZCI6MSwic3ViIjoiZW1haWxAY29tL05PTkUiLCJpYXQiOjE2NzY1MTk4ODMsImV4cCI6MTY3NjU0MTQ4M30.YAdZyVd0nquPOFW2fpiIB1beAKi6hV-xMnFqZk7dldk
+Host: myprojectsite.shop</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4856,8 +4856,8 @@ Content-Length: 1294
   "boardId" : 1,
   "userImage" : "게시글 사진 링크",
   "content" : "게시글 본문",
-  "createdDate" : "2023-02-16T02:25:47.8475719",
-  "updatedDate" : "2023-02-16T02:25:47.8475719",
+  "createdDate" : "2023-02-16T12:58:03.2283821",
+  "updatedDate" : "2023-02-16T12:58:03.2283821",
   "likeCnt" : 1,
   "like" : false,
   "member" : {
@@ -4891,8 +4891,8 @@ Content-Length: 1294
   "comments" : [ {
     "commentId" : 1,
     "content" : "댓글 내용",
-    "createdDate" : "2023-02-16T02:25:47.8475719",
-    "updatedDate" : "2023-02-16T02:25:47.8475719",
+    "createdDate" : "2023-02-16T12:58:03.2283821",
+    "updatedDate" : "2023-02-16T12:58:03.2283821",
     "member" : {
       "memberId" : 1,
       "nickname" : "nickname",
@@ -4910,8 +4910,8 @@ Content-Length: 1294
   "boardId" : 1,
   "userImage" : "게시글 사진 링크",
   "content" : "게시글 본문",
-  "createdDate" : "2023-02-16T02:25:47.8475719",
-  "updatedDate" : "2023-02-16T02:25:47.8475719",
+  "createdDate" : "2023-02-16T12:58:03.2283821",
+  "updatedDate" : "2023-02-16T12:58:03.2283821",
   "likeCnt" : 1,
   "like" : false,
   "member" : {
@@ -4945,8 +4945,8 @@ Content-Length: 1294
   "comments" : [ {
     "commentId" : 1,
     "content" : "댓글 내용",
-    "createdDate" : "2023-02-16T02:25:47.8475719",
-    "updatedDate" : "2023-02-16T02:25:47.8475719",
+    "createdDate" : "2023-02-16T12:58:03.2283821",
+    "updatedDate" : "2023-02-16T12:58:03.2283821",
     "member" : {
       "memberId" : 1,
       "nickname" : "nickname",
@@ -5165,7 +5165,7 @@ Content-Length: 1294
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.0.1-SNAPSHOT-20230216022501<br>
+Version 0.0.1-SNAPSHOT-20230216125702<br>
 Last updated 2023-02-16 02:19:29 +0900
 </div>
 </div>
