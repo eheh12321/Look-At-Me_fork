@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-DOMAIN=http://ec2-3-35-151-134.ap-northeast-2.compute.amazonaws.com/auth/profile
+DOMAIN=https://myprojectsite.shop/auth/profile
 
 # 쉬고있는 profile 찾기
 function find_idle_profile() {
 
     # 현재 애플리케이션이 몇번 포트로 실행되고 있는지 확인
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" $DOMAIN)
+    RESPONSE_CODE=$(curl --max-time 5 -s -o /dev/null -w "%{http_code}" $DOMAIN)
 
     if [ "${RESPONSE_CODE}" -ge 400 ] || [ "${RESPONSE_CODE}" -eq 000 ] # 400보다 크거나, 000(TimeOut)이면 -> Error 발생
     then

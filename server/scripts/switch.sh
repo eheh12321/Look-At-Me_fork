@@ -9,7 +9,7 @@ function switch_proxy() {
   echo "> 전환할 Port: $NEW_PORT"
   echo "> Port 전환"
   # Nginx가 변경할 프록시 주소 생성해서 파이프라인으로 넘김 | 덮어씌우기
-  echo "set \$service_url http://127.0.0.1:${NEW_PORT};" | sudo tee /etc/nginx/conf.d/lookatme-service-url.inc
+  echo "set \$service_url https://127.0.0.1:${NEW_PORT};" | sudo tee /etc/nginx/conf.d/lookatme-service-url.inc
   echo "> Nginx Reload"
   sudo service nginx reload # restart(끊김 O) != reload(끊김 X)
 }

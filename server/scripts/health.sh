@@ -6,7 +6,7 @@ source ${ABSDIR}/profile.sh
 source ${ABSDIR}/switch.sh
 
 IDLE_PORT=$(find_idle_port)
-DOMAIN=http://localhost:$IDLE_PORT/auth/profile
+DOMAIN=https://localhost:$IDLE_PORT/auth/profile
 
 echo "> Health Check Start!"
 echo "> IDLE_PORT: $IDLE_PORT"
