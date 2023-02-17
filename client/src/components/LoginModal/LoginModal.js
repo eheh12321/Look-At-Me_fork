@@ -9,7 +9,7 @@ import memberstore from '../../store/memberstore';
 import { persist } from 'zustand';
 import Logo from '../../svg/Logo.svg';
 
-const backendUrl = 'http://13.125.30.88/';
+const backendUrl = 'https://myprojectsite.shop/';
 
 function LoginModal(props) {
   const setUserId = userStore((state) => state.setUserId);
