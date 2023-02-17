@@ -21,7 +21,7 @@ const PostView = () => {
   const [detailData, setDetailData] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const url = 'http://13.125.30.88';
+  const url = 'https://myprojectsite.shop';
   const name = detailData.member?.nickname;
   const sentId = detailData.member?.memberId;
   const boardId = detailData.boardId;
@@ -85,7 +85,7 @@ const PostView = () => {
   const unfollow = async () => {
     const token = localStorage.getItem('accessToken');
     const res = await axios.post(
-      'http://13.125.30.88' +
+      'https://myprojectsite.shop' +
         `/members/follow?op=${detailData.member.memberId}&type=down`,
       {},
       {
@@ -100,7 +100,7 @@ const PostView = () => {
   const follow = async () => {
     const token = localStorage.getItem('accessToken');
     const res = await axios.post(
-      'http://13.125.30.88' +
+      'https://myprojectsite.shop' +
         `/members/follow?op=${detailData.member.memberId}&type=up`,
       {},
       {

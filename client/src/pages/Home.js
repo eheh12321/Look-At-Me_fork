@@ -15,9 +15,12 @@ const Home = () => {
       const token = localStorage.getItem('accessToken');
       try {
         if (location.pathname === '/') {
-          const response = await axios.get(`http://13.125.30.88/boards`, {
-            headers: { Authorization: token },
-          });
+          const response = await axios.get(
+            `https://myprojectsite.shop/boards`,
+            {
+              headers: { Authorization: token },
+            }
+          );
           setData(response.data.data);
         }
       } catch {
@@ -53,7 +56,7 @@ const Home = () => {
   const onRent = () => {
     axios({
       method: 'get', // 통신 방식
-      url: 'http://13.125.30.88/boards/search/available', // 서버
+      url: 'https://myprojectsite.shop/boards/search/available', // 서버
     }).then(function (response) {
       setData(response.data.data);
     });
