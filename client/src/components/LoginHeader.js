@@ -12,7 +12,7 @@ import axios from 'axios';
 import Logo from '../svg/Logo.svg';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 import Hambar from './HamBar';
-const backendUrl = 'http://13.125.30.88/';
+const backendUrl = 'https://myprojectsite.shop/';
 
 const LoginHeader = () => {
   const { isLogin, setisLogin } = memberstore((state) => state);

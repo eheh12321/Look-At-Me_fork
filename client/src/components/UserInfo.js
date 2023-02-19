@@ -4,7 +4,7 @@ import userStore from '../store/userStore';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FollowModal from './followlist';
-const backendUrl = 'http://13.125.30.88/';
+const backendUrl = 'https://myprojectsite.shop/';
 import { BREAK_POINT_TABLET, BREAK_POINT_PC } from '../constants/index';
 
 const UserInfo = () => {
