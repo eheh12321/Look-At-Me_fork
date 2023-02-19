@@ -23,7 +23,7 @@ function LoginModal(props) {
 
   const googleLogin = () => {
     const GoogleAuthLogin =
-      'http://ec2-13-125-30-88.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/google';
+      'https://myprojectsite.shop/oauth2/authorization/google';
     window.location.href = GoogleAuthLogin;
   };
 
