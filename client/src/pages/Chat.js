@@ -13,7 +13,7 @@ const Chat = () => {
   const [idData, setIdData] = useState('');
   const [sentName, setSentName] = useState('');
   const [sentPicture, setSentPicture] = useState('');
-  const url = 'http://13.125.30.88';
+  const url = 'https://myprojectsite.shop';
   const sentId = JSON.parse(localStorage.getItem('sentId'));
   const name = JSON.parse(localStorage.getItem('name'));
   const myId = JSON.parse(localStorage.getItem('myId'));

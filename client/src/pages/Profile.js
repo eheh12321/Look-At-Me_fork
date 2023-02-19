@@ -24,7 +24,7 @@ const Profile = () => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://13.125.30.88/boards`, {
+        const response = await axios.get(`https://myprojectsite.shop/boards`, {
           // 토큰 추가
           headers: { Authorization: token },
         });

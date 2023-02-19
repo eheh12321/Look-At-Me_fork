@@ -76,7 +76,7 @@ const PostUpload = () => {
     }
 
     axios
-      .post('http://13.125.30.88/boards', formData, {
+      .post('https://myprojectsite.shop/boards', formData, {
         headers: {
           Authorization: token,
           'Content-Type': 'multipart/form-data',
