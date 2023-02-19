@@ -19,13 +19,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static com.lookatme.server.util.ApiDocumentUtils.getRequestPreprocessor;
+import static com.lookatme.server.util.ApiDocumentUtils.getResponsePreprocessor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.ArgumentMatchers.any;
@@ -99,8 +100,8 @@ class AuthControllerSliceTest {
                 .andExpect(header().exists("Refresh")) // response 헤더에 Refresh값이 있는지 검증
                 .andDo(document(
                                 "auth-login",
-                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                getRequestPreprocessor(),
+                                getResponsePreprocessor(),
                                 requestFields(
                                         List.of(
                                                 fieldWithPath("email").description("로그인 이메일"),
@@ -166,8 +167,8 @@ class AuthControllerSliceTest {
         actions.andExpect(status().isOk())
                 .andDo(document(
                         "auth-jwt-test",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor()
                 ));
     }
 

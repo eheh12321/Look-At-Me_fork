@@ -4,7 +4,7 @@ ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
 source ${ABSDIR}/profile.sh
 
-REPOSITORY=/home/ec2-user/lookatme/server
+REPOSITORY=/home/ec2-user/app/lookatme/server
 PROJECT_NAME=server
 
 echo "> 프로젝트 실행 위치로 이동"
@@ -29,6 +29,6 @@ IDLE_PROFILE=$(find_idle_profile) # SubShell을 호출해 함수의 결과값을
 echo "> ${JAR_NAME} 을 profile=${IDLE_PROFILE} 로 실행합니다"
 
 nohup java -jar \
-        -Dspring.config.location=classpath:/application.yml,/home/ec2-user/lookatme/server/application-dev.yml \
+        -Dspring.config.location=classpath:/application.yml,$REPOSITORY/application-dev.yml \
         -Dspring.profiles.active=dev,${IDLE_PROFILE} \
         ${JAR_NAME} > ${REPOSITORY}/nohup_${IDLE_PROFILE}.out 2>&1 &

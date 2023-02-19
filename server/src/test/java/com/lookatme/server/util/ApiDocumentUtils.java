@@ -9,7 +9,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 public interface ApiDocumentUtils {
 
     static OperationRequestPreprocessor getRequestPreprocessor() {
-        return preprocessRequest(prettyPrint(), Preprocessors.modifyUris().host("13.125.30.88").removePort());
+        return preprocessRequest(prettyPrint(), Preprocessors.modifyUris().host("myprojectsite.shop").removePort().scheme("https"));
     }
 
     static OperationResponsePreprocessor getResponsePreprocessor() {

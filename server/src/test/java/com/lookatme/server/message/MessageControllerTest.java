@@ -33,6 +33,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static com.lookatme.server.util.ApiDocumentUtils.getRequestPreprocessor;
+import static com.lookatme.server.util.ApiDocumentUtils.getResponsePreprocessor;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -126,8 +128,8 @@ public class MessageControllerTest {
                 .andExpect(jsonPath("$.messageId").value(message.getMessageId()))
                 .andExpect(jsonPath("$.content").value(message.getContent()))
                 .andDo(document("send-message",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("메시지 내용"),
@@ -212,8 +214,8 @@ public class MessageControllerTest {
                 .andExpect(jsonPath("$.messageId").value(message.getMessageId()))
                 .andExpect(jsonPath("$.content").value(message.getContent()))
                 .andDo(document("get-message",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("messageId").description("메시지 식별자")
                         ),
@@ -363,8 +365,8 @@ public class MessageControllerTest {
                 .andExpect(jsonPath("$.data[1].messageId").value(message4.getMessageId()))
                 .andExpect(jsonPath("$.data[1].content").value(message4.getContent()))
                 .andDo(document("get-messages",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호"),
                                 parameterWithName("size").description("페이지 크기")
@@ -515,8 +517,8 @@ public class MessageControllerTest {
                 .andExpect(jsonPath("$[0].messageId").value(message3.getMessageId()))
                 .andExpect(jsonPath("$[0].content").value(message3.getContent()))
                 .andDo(document("get-message-room-list",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         responseFields(
                                 List.of(
                                         fieldWithPath("[].messageId").type(JsonFieldType.NUMBER).description("메시지 식별자"),
@@ -549,8 +551,8 @@ public class MessageControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(document("delete-message-by-receiver",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("messageId").description("메시지 식별자")
                         )
@@ -571,8 +573,8 @@ public class MessageControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(document("delete-message-by-sender",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("messageId").description("메시지 식별자")
                         )

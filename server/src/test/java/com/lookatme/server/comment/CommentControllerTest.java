@@ -40,6 +40,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+import static com.lookatme.server.util.ApiDocumentUtils.getRequestPreprocessor;
+import static com.lookatme.server.util.ApiDocumentUtils.getResponsePreprocessor;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -132,8 +134,8 @@ public class CommentControllerTest {
                 .andExpect(jsonPath("$.nickname").value(comment.getMember().getNickname()))
                 .andExpect(jsonPath("$.profileImageUrl").value(comment.getMember().getProfileImageUrl()))
                 .andDo(document("create-comment",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("boardId").type(JsonFieldType.STRING).description("게시글 식별자"),
@@ -224,8 +226,8 @@ public class CommentControllerTest {
                 .andExpect(jsonPath("$.nickname").value(comment.getMember().getNickname()))
                 .andExpect(jsonPath("$.profileImageUrl").value(comment.getMember().getProfileImageUrl()))
                 .andDo(document("patch-comment",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 식별자")
                         ),
@@ -309,8 +311,8 @@ public class CommentControllerTest {
                 .andExpect(jsonPath("$.nickname").value(comment.getMember().getNickname()))
                 .andExpect(jsonPath("$.profileImageUrl").value(comment.getMember().getProfileImageUrl()))
                 .andDo(document("get-comment",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 식별자")
                         ),
@@ -418,8 +420,8 @@ public class CommentControllerTest {
                 .andExpect(jsonPath("$.data[1].nickname").value(comment2.getMember().getNickname()))
                 .andExpect(jsonPath("$.data[1].profileImageUrl").value(comment2.getMember().getProfileImageUrl()))
                 .andDo(document("get-comments",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("boardId").description("게시글 식별자")
                         ),
@@ -467,8 +469,8 @@ public class CommentControllerTest {
         actions
                 .andExpect(status().isNoContent())
                 .andDo(document("delete-comment",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        getRequestPreprocessor(),
+                        getResponsePreprocessor(),
                         pathParameters(
                                 parameterWithName("commentId").description("댓글 식별자")
                         )
