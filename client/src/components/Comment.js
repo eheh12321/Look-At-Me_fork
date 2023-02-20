@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import userStore from '../store/userStore';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 const BREAK_POINT_PC = 1300;
 const token = localStorage.getItem('accessToken');
 const Comment = ({ boardId, profile }) => {
@@ -15,14 +14,13 @@ const Comment = ({ boardId, profile }) => {
 
   const [commentData, setCommentData] = useState([]);
   const [contentValue, setContentValue] = useState('');
-
-  //추가부분
   const { nickname } = userStore((state) => state);
 
   const onContentChange = (e) => {
     setContentValue(e.currentTarget.value);
   };
-  const onPostComment = () => {
+  const onPostComment = (val) => {
+    console.log('댓글 등록!');
     axios(url, {
       method: 'POST',
       headers: {
@@ -31,10 +29,11 @@ const Comment = ({ boardId, profile }) => {
       },
       data: JSON.stringify({
         boardId: boardId,
-        content: contentValue,
+        content: val,
       }),
     })
       .then((res) => {
+        document.getElementById('test').value = '';
         if (res) {
           fetchCommentData();
         }
@@ -53,7 +52,6 @@ const Comment = ({ boardId, profile }) => {
     } catch (err) {
       return err;
     }
-    //데이터 받아오기 가능하면 지우고 response.data로 변경
   };
   useEffect(() => {
     fetchCommentData();
@@ -133,14 +131,15 @@ const Comment = ({ boardId, profile }) => {
         <div className="user-name"></div>
         <div className="comment-input">
           <input
+            id="test"
             type="text"
             placeholder={commentPlaceholder}
-            value={contentValue}
             onChange={onContentChange}
             readOnly={isReadonly}
           />
 
           <button
+            type="button"
             disabled={!contentValue}
             onClick={() => {
               onPostComment(contentValue);

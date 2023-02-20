@@ -21,7 +21,6 @@ const LoginHeader = () => {
   const { userId, setUserId } = userStore((state) => state);
   const [isBarOpen, setIsBarOpen] = useState(false);
   const myId = JSON.parse(localStorage.getItem('myId'));
-  console.log(myId);
   const onClickButton = () => {
     setIsOpen(true);
   };
