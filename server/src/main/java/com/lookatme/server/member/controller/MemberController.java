@@ -119,7 +119,7 @@ public class MemberController {
         );
     }
 
-    @GetMapping("/token")
+    @PostMapping("/token")
     public ResponseEntity<?> getAccessTokenOwner(@AuthenticationPrincipal MemberPrincipal memberPrincipal) {
         return new ResponseEntity<>(memberService.findMember(memberPrincipal.getMemberId()), HttpStatus.OK);
     }
