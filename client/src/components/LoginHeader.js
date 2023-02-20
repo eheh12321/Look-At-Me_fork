@@ -29,20 +29,24 @@ const LoginHeader = () => {
     setIsBarOpen((prev) => !prev);
   };
   const Logout = async () => {
-    const token = localStorage.getItem('accessToken');
-    const res = await axios.post(
-      `${backendUrl}auth/logout`,
-      {},
-      {
-        headers: { Authorization: token },
+    if (confirm('로그아웃 하시겠습니까?')) {
+      const token = localStorage.getItem('accessToken');
+      const res = await axios.post(
+        `${backendUrl}auth/logout`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
+      if (res) {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('myId');
+        // eslint-disable-next-line react/prop-types
       }
-    );
-    if (res) {
-      localStorage.removeItem('accessToken');
-      // eslint-disable-next-line react/prop-types
+      setisLogin(false);
+      setUserId('');
     }
-    setisLogin(false);
-    setUserId('');
   };
 
   return (

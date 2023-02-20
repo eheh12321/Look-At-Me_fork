@@ -18,7 +18,6 @@ const Profile = () => {
   const [codiType, setCodiType] = useState('my');
 
   localStorage.setItem('myId', JSON.stringify(userStoreId));
-  console.log(userStoreId);
 
   useEffect(() => {
     window.scrollTo(0, 0);
