@@ -42,10 +42,12 @@ const LoginHeader = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('myId');
+        localStorage.removeItem('loginUserProfile');
         // eslint-disable-next-line react/prop-types
       }
       setisLogin(false);
       setUserId('');
+      window.location.reload();
     }
   };
 

@@ -31,9 +31,9 @@ const Google = () => {
           console.log(res);
           if (res) {
             setUserId(res.data.memberId);
-            localStorage.setItem('myId', res.data.memberId);
             setNickname(res.data.nickname);
-            console.log('로그인 완료');
+            localStorage.setItem('myId', res.data.memberId);
+            localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
             window.location.href = '/';
           } else {
             console.log(res);

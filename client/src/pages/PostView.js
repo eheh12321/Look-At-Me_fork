@@ -26,6 +26,10 @@ const PostView = () => {
   const sentId = detailData.member?.memberId;
   const boardId = detailData.boardId;
   const profile = detailData.member?.profileImageUrl;
+  const loginUserProfile =
+    localStorage.getItem('loginUserProfile') == null
+      ? 'https://user-images.githubusercontent.com/74748851/212484014-b22c7726-1091-4b89-a9d5-c97d72b82068.png'
+      : localStorage.getItem('loginUserProfile');
   localStorage.setItem('sentId', JSON.stringify(sentId));
   localStorage.setItem('name', JSON.stringify(name));
   localStorage.setItem('boardId', JSON.stringify(boardId));
@@ -62,8 +66,6 @@ const PostView = () => {
     };
     fetchData();
   }, []);
-  console.log(isFollowing);
-  console.log(detailData);
   const onPostDelete = () => {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios(url + `/boards/${params.boardId}`, {
@@ -190,7 +192,7 @@ const PostView = () => {
           <span className="products">착용 제품</span>
           <SBottom>
             <Item />
-            <Comment name={name} boardId={boardId} profile={profile} />
+            <Comment name={name} boardId={boardId} profile={loginUserProfile} />
           </SBottom>
         </SContainer>
       </div>

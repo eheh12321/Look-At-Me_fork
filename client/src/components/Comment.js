@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import userStore from '../store/userStore';
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 const BREAK_POINT_PC = 1300;
 const token = localStorage.getItem('accessToken');
 const Comment = ({ boardId, profile }) => {
@@ -21,7 +22,6 @@ const Comment = ({ boardId, profile }) => {
   const onContentChange = (e) => {
     setContentValue(e.currentTarget.value);
   };
-  console.log(contentValue);
   const onPostComment = () => {
     axios(url, {
       method: 'POST',
@@ -75,6 +75,10 @@ const Comment = ({ boardId, profile }) => {
         .catch((err) => console.log('Error', err.message));
     }
   };
+  const isReadonly = token == null ? true : false;
+  const commentPlaceholder = isReadonly
+    ? '로그인 하고 댓글을 달아보세요 :D'
+    : '댓글 달기...';
 
   //댓글 수정부분
   const [revise, setRevise] = useState(''); //댓글 수정창에 입력한 값이 저장
@@ -130,9 +134,10 @@ const Comment = ({ boardId, profile }) => {
         <div className="comment-input">
           <input
             type="text"
-            placeholder="댓글달기..."
+            placeholder={commentPlaceholder}
             value={contentValue}
             onChange={onContentChange}
+            readOnly={isReadonly}
           />
 
           <button

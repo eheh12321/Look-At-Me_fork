@@ -70,6 +70,7 @@ function LoginModal(props) {
         const user_nickname = res.data.nickname;
         localStorage.setItem('accessToken', res.headers.authorization);
         localStorage.setItem('refreshToken', res.headers.refresh);
+        localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
         localStorage.setItem('myId', JSON.stringify(user_id));
         setUserId(user_id);
         setNickname(user_nickname);
@@ -77,6 +78,7 @@ function LoginModal(props) {
 
         // eslint-disable-next-line react/prop-types
         props.onClose();
+        window.location.reload();
       })
       .catch((err) => {
         alert(err.response.data.message);
