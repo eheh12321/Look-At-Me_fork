@@ -5,7 +5,7 @@ ABSDIR=$(dirname $ABSPATH)
 source ${ABSDIR}/profile.sh
 
 function switch_proxy() {
-  NEW_PORT=$(find_current_port)
+  NEW_PORT=$(find_idle_port)
   echo "> 전환할 Port: $NEW_PORT"
   echo "> Port 전환"
   # Nginx가 변경할 프록시 주소 생성해서 파이프라인으로 넘김 | 덮어씌우기
