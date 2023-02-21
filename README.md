@@ -24,9 +24,7 @@ Loot At Me에서는 다른 사용자들이 올린 다양한 코디를 둘러보�
 사람들이 옷을 공유하며 활용 가치작 있는 의류가 버려지거나 방치되는 것을 막기 위해 이러한 서비스를 기획하게 되었습니다.
 
 ### :link: 배포 주소
-(기존 버전) http://mainproject-035.s3-website.ap-northeast-2.amazonaws.com/
-
-(:star:**배포 주소 수정본**) https://eheh12321.github.io/
+(:star:**배포 주소 수정**) https://lookatme.myprojectsite.shop/
 
 <br>
 
