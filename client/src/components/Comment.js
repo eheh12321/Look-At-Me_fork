@@ -14,15 +14,13 @@ const Comment = ({ boardId, profile }) => {
 
   const [commentData, setCommentData] = useState([]);
   const [contentValue, setContentValue] = useState('');
-
-  //추가부분
   const { nickname } = userStore((state) => state);
 
   const onContentChange = (e) => {
     setContentValue(e.currentTarget.value);
   };
-  console.log(contentValue);
-  const onPostComment = () => {
+  const onPostComment = (val) => {
+    console.log('댓글 등록!');
     axios(url, {
       method: 'POST',
       headers: {
@@ -31,10 +29,11 @@ const Comment = ({ boardId, profile }) => {
       },
       data: JSON.stringify({
         boardId: boardId,
-        content: contentValue,
+        content: val,
       }),
     })
       .then((res) => {
+        document.getElementById('test').value = '';
         if (res) {
           fetchCommentData();
         }
@@ -45,20 +44,29 @@ const Comment = ({ boardId, profile }) => {
   };
   const fetchCommentData = async () => {
     try {
-      const response = await axios.get(
+      const res = await axios.get(
         url + `/board/${params.boardId}?page=1&size=10`
       );
-      setCommentData(response.data);
-      console.log(response.data);
+      setCommentData(res.data);
     } catch (err) {
       return err;
     }
-    //데이터 받아오기 가능하면 지우고 response.data로 변경
+  };
+  const filtering = async () => {
+    // 로그인 한 회원의 댓글만 수정/삭제 버튼이 보이도록 반복문
+    const elems = document.getElementsByClassName('comment_box');
+    for (var i = 0; i < elems.length; i++) {
+      if (nickname != elems[i].children[0].children[1].innerHTML) {
+        elems[i].children[1].style.display = 'none';
+      }
+    }
   };
   useEffect(() => {
     fetchCommentData();
   }, []);
-
+  useEffect(() => {
+    filtering();
+  }, [commentData]);
   const onDelteComment = (id) => {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios(url + `/${id}`, {
@@ -75,6 +83,10 @@ const Comment = ({ boardId, profile }) => {
         .catch((err) => console.log('Error', err.message));
     }
   };
+  const isReadonly = token == null ? true : false;
+  const commentPlaceholder = isReadonly
+    ? '로그인 하고 댓글을 달아보세요 :D'
+    : '댓글 달기...';
 
   //댓글 수정부분
   const [revise, setRevise] = useState(''); //댓글 수정창에 입력한 값이 저장
@@ -129,13 +141,15 @@ const Comment = ({ boardId, profile }) => {
         <div className="user-name"></div>
         <div className="comment-input">
           <input
+            id="test"
             type="text"
-            placeholder="댓글달기..."
-            value={contentValue}
+            placeholder={commentPlaceholder}
             onChange={onContentChange}
+            readOnly={isReadonly}
           />
 
           <button
+            type="button"
             disabled={!contentValue}
             onClick={() => {
               onPostComment(contentValue);
