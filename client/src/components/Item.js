@@ -33,7 +33,11 @@ const Item = () => {
           key={item.productId}
           role="presentation"
           onClick={() => {
-            onMoveLink(item.link);
+            if (
+              confirm('외부 상품 구매 사이트로 이동합니다. 계속하시겠습니까?')
+            ) {
+              onMoveLink(item.link);
+            }
           }}
         >
           <div className="item_picture">

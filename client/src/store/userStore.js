@@ -6,6 +6,7 @@ const userStore = create(
     (set) => ({
       userId: '',
       setUserId: (e) => {
+        console.log('MemberId: ' + e);
         set({
           userId: e,
         });
