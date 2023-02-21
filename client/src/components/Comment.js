@@ -44,25 +44,32 @@ const Comment = ({ boardId, profile }) => {
   };
   const fetchCommentData = async () => {
     try {
-      const response = await axios.get(
+      const res = await axios.get(
         url + `/board/${params.boardId}?page=1&size=10`
       );
-      setCommentData(response.data);
-      // 로그인 한 회원의 댓글만 수정/삭제 버튼이 보이도록 반복문
-      const elems = document.getElementsByClassName('comment_box');
-      for (var i = 0; i < elems.length; i++) {
-        if (nickname != elems[i].children[0].children[1].innerHTML) {
-          elems[i].children[1].style.display = 'none';
-        }
-      }
+      setCommentData(res.data);
     } catch (err) {
       return err;
+    }
+  };
+  const filtering = async () => {
+    // 로그인 한 회원의 댓글만 수정/삭제 버튼이 보이도록 반복문
+    const elems = document.getElementsByClassName('comment_box');
+    console.log('댓글을 불러왔습니다.: ' + elems.length);
+    console.log('Nickname: ' + nickname);
+    for (var i = 0; i < elems.length; i++) {
+      console.log(elems[i].children[0].children[1].innerHTML);
+      if (nickname != elems[i].children[0].children[1].innerHTML) {
+        elems[i].children[1].style.display = 'none';
+      }
     }
   };
   useEffect(() => {
     fetchCommentData();
   }, []);
-
+  useEffect(() => {
+    filtering();
+  }, [commentData]);
   const onDelteComment = (id) => {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios(url + `/${id}`, {
