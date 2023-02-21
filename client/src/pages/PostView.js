@@ -11,12 +11,13 @@ import Comment from '../components/Comment';
 import Avatar from '../components/Avatar';
 import Item from '../components/Item';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { token, BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 
 const PostView = () => {
   const navigate = useNavigate();
+  const postDelete = useRef();
   const params = useParams();
   const [detailData, setDetailData] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -38,17 +39,21 @@ const PostView = () => {
   //좋아요부분
   const onClickGood = async (id) => {
     const token = localStorage.getItem('accessToken');
-    const res = await axios.post(
-      `${url}/boards/${id}/like`, // 좋아요 API
-      {},
-      {
-        headers: { Authorization: token },
+    if (token != null) {
+      const res = await axios.post(
+        `${url}/boards/${id}/like`, // 좋아요 API
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
+      if (res && res?.data) {
+        setDetailData((prev) => {
+          return { ...prev, like: !prev.like };
+        });
       }
-    );
-    if (res && res?.data) {
-      setDetailData((prev) => {
-        return { ...prev, like: !prev.like };
-      });
+    } else {
+      alert('로그인 하고 좋아요 기능을 이용해보세요!');
     }
   };
   useEffect(() => {
@@ -60,6 +65,9 @@ const PostView = () => {
         });
         setDetailData(response.data);
         setIsFollowing(response.data.member.follow);
+        if (response.data.member.memberId != localStorage.getItem('myId')) {
+          postDelete.current.style.display = 'none';
+        }
       } catch (err) {
         return err;
       }
@@ -101,16 +109,20 @@ const PostView = () => {
 
   const follow = async () => {
     const token = localStorage.getItem('accessToken');
-    const res = await axios.post(
-      'https://myprojectsite.shop' +
-        `/members/follow?op=${detailData.member.memberId}&type=up`,
-      {},
-      {
-        headers: { Authorization: token },
+    if (token != null) {
+      const res = await axios.post(
+        'https://myprojectsite.shop' +
+          `/members/follow?op=${detailData.member.memberId}&type=up`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
+      if (res) {
+        setIsFollowing(true);
       }
-    );
-    if (res) {
-      setIsFollowing(true);
+    } else {
+      alert('로그인 하고 팔로우 기능을 이용해보세요!');
     }
   };
 
@@ -158,7 +170,11 @@ const PostView = () => {
                     <BsChatLeftText
                       size="20"
                       onClick={() => {
-                        navigate(`/chatting`);
+                        if (token != null) {
+                          navigate(`/chatting`);
+                        } else {
+                          alert('로그인 하고 채팅 기능을 이용해보세요!');
+                        }
                       }}
                     />
                     {isFollowing ? (
@@ -183,7 +199,11 @@ const PostView = () => {
               </div>
               <div className="post">{detailData.content}</div>
               <div className="edit-delete">
-                <span role="presentation" onClick={onPostDelete}>
+                <span
+                  role="presentation"
+                  onClick={onPostDelete}
+                  ref={postDelete}
+                >
                   Delete
                 </span>
               </div>

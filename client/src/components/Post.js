@@ -16,16 +16,20 @@ const Post = ({ post }) => {
   const [isLike, setIsLike] = useState(post.like);
   const onClickGood = async (id) => {
     const token = localStorage.getItem('accessToken');
-    const res = await axios.post(
-      `${backendUrl}boards/${id}/like`, // 좋아요 API
-      {},
-      {
-        headers: { Authorization: token },
+    if (token != null) {
+      const res = await axios.post(
+        `${backendUrl}boards/${id}/like`, // 좋아요 API
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
+      if (res && res?.data) {
+        setLikeCnt(res.data.likeCnt);
+        setIsLike((prev) => !prev);
       }
-    );
-    if (res && res?.data) {
-      setLikeCnt(res.data.likeCnt);
-      setIsLike((prev) => !prev);
+    } else {
+      alert('로그인 하고 좋아요 기능을 이용해보세요!');
     }
   };
 

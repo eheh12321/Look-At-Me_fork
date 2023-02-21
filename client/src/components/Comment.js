@@ -55,10 +55,7 @@ const Comment = ({ boardId, profile }) => {
   const filtering = async () => {
     // 로그인 한 회원의 댓글만 수정/삭제 버튼이 보이도록 반복문
     const elems = document.getElementsByClassName('comment_box');
-    console.log('댓글을 불러왔습니다.: ' + elems.length);
-    console.log('Nickname: ' + nickname);
     for (var i = 0; i < elems.length; i++) {
-      console.log(elems[i].children[0].children[1].innerHTML);
       if (nickname != elems[i].children[0].children[1].innerHTML) {
         elems[i].children[1].style.display = 'none';
       }
