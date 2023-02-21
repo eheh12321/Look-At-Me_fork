@@ -48,7 +48,13 @@ const Comment = ({ boardId, profile }) => {
         url + `/board/${params.boardId}?page=1&size=10`
       );
       setCommentData(response.data);
-      console.log(response.data);
+      // 로그인 한 회원의 댓글만 수정/삭제 버튼이 보이도록 반복문
+      const elems = document.getElementsByClassName('comment_box');
+      for (var i = 0; i < elems.length; i++) {
+        if (nickname != elems[i].children[0].children[1].innerHTML) {
+          elems[i].children[1].style.display = 'none';
+        }
+      }
     } catch (err) {
       return err;
     }

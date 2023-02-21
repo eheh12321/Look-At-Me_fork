@@ -19,6 +19,7 @@ const LoginHeader = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { userId, setUserId } = userStore((state) => state);
+  const setNickname = userStore((state) => state.setNickname);
   const [isBarOpen, setIsBarOpen] = useState(false);
   const myId = JSON.parse(localStorage.getItem('myId'));
   const onClickButton = () => {
@@ -46,6 +47,7 @@ const LoginHeader = () => {
       }
       setisLogin(false);
       setUserId('');
+      setNickname('');
       window.location.reload();
     }
   };
