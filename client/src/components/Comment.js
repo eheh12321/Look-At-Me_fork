@@ -6,12 +6,16 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import userStore from '../store/userStore';
+import Pagination from './Pagination';
 const BREAK_POINT_PC = 1300;
 const token = localStorage.getItem('accessToken');
 const Comment = ({ boardId, profile }) => {
+  // Paging
+  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
+
   const params = useParams();
   const url = 'https://myprojectsite.shop/comment';
-
   const [commentData, setCommentData] = useState([]);
   const [contentValue, setContentValue] = useState('');
   const { nickname } = userStore((state) => state);
@@ -20,7 +24,6 @@ const Comment = ({ boardId, profile }) => {
     setContentValue(e.currentTarget.value);
   };
   const onPostComment = (val) => {
-    console.log('댓글 등록!');
     axios(url, {
       method: 'POST',
       headers: {
@@ -42,10 +45,11 @@ const Comment = ({ boardId, profile }) => {
         return err;
       });
   };
-  const fetchCommentData = async () => {
+  const fetchCommentData = async (p) => {
     try {
+      if (p == undefined) p = page;
       const res = await axios.get(
-        url + `/board/${params.boardId}?page=1&size=10`
+        url + `/board/${params.boardId}?page=${p}&size=${limit}`
       );
       setCommentData(res.data);
     } catch (err) {
@@ -61,12 +65,28 @@ const Comment = ({ boardId, profile }) => {
       }
     }
   };
+  const paging = async () => {
+    let offset = (page - 1) * limit;
+    console.log('Offset: ' + offset);
+    if (commentData.pageInfoDto?.totalElements < offset) {
+      setPage(commentData.pageInfoDto?.totalPages); // 마지막 페이지로 이동
+      console.log(Math.ceil(commentData.pageInfoDto?.totalElements / limit));
+      fetchCommentData(
+        Math.ceil(commentData.pageInfoDto?.totalElements / limit)
+      );
+    } else {
+      fetchCommentData();
+    }
+  };
   useEffect(() => {
     fetchCommentData();
   }, []);
   useEffect(() => {
     filtering();
   }, [commentData]);
+  useEffect(() => {
+    paging();
+  }, [page, limit]);
   const onDelteComment = (id) => {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios(url + `/${id}`, {
@@ -132,7 +152,24 @@ const Comment = ({ boardId, profile }) => {
 
   return (
     <SWrapper>
-      <div className="comment_count">댓글 {commentData.data?.length}</div>
+      <div className="comment_count">
+        <span>댓글 </span>
+        {commentData.pageInfoDto?.totalElements}
+        <label className="comment_paging_label">
+          페이지 당 댓글 수:&nbsp;
+          <select
+            type="number"
+            value={limit}
+            onChange={({ target: { value } }) => setLimit(Number(value))}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+          </select>
+        </label>
+      </div>
       <div className="line"></div>
       <form className="commentWrap">
         <div className="my_avatar">
@@ -170,11 +207,7 @@ const Comment = ({ boardId, profile }) => {
                 </div>
                 <div className="user_name">{comment.nickname}</div>
                 {editCommentId === comment.commentId ? ( //현재 수정중인 Comment와 동일한CommentId를 가지고있는지?
-                  <SInput
-                    // value={comment.content}
-                    value={revise}
-                    onChange={onChangeInput}
-                  ></SInput>
+                  <SInput value={revise} onChange={onChangeInput}></SInput>
                 ) : (
                   <div className="comment_content">{comment.content}</div>
                 )}
@@ -213,6 +246,14 @@ const Comment = ({ boardId, profile }) => {
             </div>
           ))}
       </div>
+      <footer>
+        <Pagination
+          total={commentData.pageInfoDto?.totalElements}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      </footer>
     </SWrapper>
   );
 };
@@ -349,6 +390,9 @@ const SWrapper = styled.div`
       width: 26vw;
       height: 100%;
     }
+  }
+  .comment_paging_label {
+    float: right;
   }
 `;
 const SSave = styled.div`
