@@ -68,7 +68,7 @@ const LoginHeader = () => {
                 width="200px"
               />
             </div>
-            <SearchBox />
+            {/* <SearchBox /> */}
             {!localStorage.getItem('accessToken') ? (
               <div className="right zone">
                 <button className="login button" onClick={onClickButton}>
