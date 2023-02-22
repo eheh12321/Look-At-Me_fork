@@ -14,7 +14,12 @@ function Pagination({ total, limit, page, setPage }) {
   return (
     <>
       <Nav>
-        <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+        {/* 댓글이 없으면 페이지네이션 버튼 출력 X */}
+        <Button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          hidden={total === 0}
+        >
           &lt;
         </Button>
         {Array(numPages)
@@ -28,7 +33,11 @@ function Pagination({ total, limit, page, setPage }) {
               {i + 1}
             </Button>
           ))}
-        <Button onClick={() => setPage(page + 1)} disabled={page === numPages}>
+        <Button
+          onClick={() => setPage(page + 1)}
+          disabled={page === numPages}
+          hidden={total === 0}
+        >
           &gt;
         </Button>
       </Nav>
