@@ -241,7 +241,6 @@ const SWrapper = styled.div`
 const SContainer = styled.div`
   font-family: 'Gothic A1', sans-serif;
   width: 45vw;
-  height: 750px;
   border: 1px solid lightgray;
   border-radius: 8px;
   margin: 60px 30px;
