@@ -72,10 +72,6 @@ const Item = () => {
   );
 };
 const SItemContainer = styled.div`
-  overflow: auto;
-  height: 110px;
-  margin-bottom: 10px;
-  margin-top: -10px;
   .item_box {
     height: 65px;
     margin-bottom: 13px;

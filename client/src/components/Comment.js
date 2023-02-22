@@ -284,7 +284,7 @@ const SWrapper = styled.div`
     }
   }
   .comment_container {
-    height: 12vh;
+    max-height: 25vh; // 한 스크롤에 댓글 5개 출력
 
     @media only screen and (max-width: ${BREAK_POINT_PC}px) {
       & {
@@ -294,7 +294,7 @@ const SWrapper = styled.div`
     overflow: auto;
     .comment_box {
       display: flex;
-      height: 50px;
+      height: 5vh;
       align-items: center;
       justify-content: space-between;
       .comment-left {
