@@ -32,6 +32,4 @@ public class BoardResponseDto {
     private MemberDto.ResponseWithFollow member;
 
     private List<BoardProductsResponseDto> products;
-
-    private List<CommentResponseDtoV2> comments;
 }
