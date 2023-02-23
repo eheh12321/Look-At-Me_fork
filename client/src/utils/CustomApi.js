@@ -6,16 +6,13 @@ const server = axios.create({
 
 server.interceptors.request.use(function (config) {
   const user = localStorage.getItem('myId');
-  if (!user) {
-    // 로그인 되어있지 않는 경우
+  if (user) {
+    // 로그인이 되어있는 경우 Access Token을 같이 보낸다
+    console.log('로그인 상태');
+    config.headers['Authorization'] = localStorage.getItem('accessToken');
+  } else {
     console.log('비로그인 상태');
-    config.headers['Authorization'] = null;
-    config.headers['Refresh'] = null;
-    return config;
   }
-  // 로그인이 되어있는 경우 Access Token을 같이 보낸다
-  console.log('로그인 상태');
-  config.headers['Authorization'] = localStorage.getItem('accessToken');
   return config;
 });
 
@@ -24,7 +21,10 @@ server.interceptors.response.use(
     return response;
   },
   async function (error) {
-    if (error.response?.status === 403) {
+    if (
+      error.response?.status === 403 &&
+      error.response?.data.errorCode === 'TOKEN_EXPIRE'
+    ) {
       try {
         console.log('토큰 만료 - 재발급 진행');
         const originalRequest = error.config;

@@ -20,7 +20,11 @@ const Google = () => {
 
     const getMember = async () => {
       await server
-        .get(`members/token`)
+        .get(`members/token`, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
         .then((res) => {
           console.log(res);
           if (res) {
