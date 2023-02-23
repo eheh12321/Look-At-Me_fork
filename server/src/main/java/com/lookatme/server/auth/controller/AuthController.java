@@ -65,6 +65,8 @@ public class AuthController {
         String newAccessToken = authService.reissueAccessToken(refreshToken, tokenSubject);
         authService.addAccessTokenToBlacklist(accessToken); // 기존에 사용하던 액세스 토큰은 사용할 수 없도록 블랙리스트 등록
 
+        // TODO: Refresh 토큰도 유효기간을 보고 만료시점이 다가오면 같이 재발급
+
         response.setHeader("Authorization", newAccessToken);
         return new ResponseEntity<>(newAccessToken, HttpStatus.CREATED);
     }
