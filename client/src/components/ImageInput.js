@@ -33,7 +33,7 @@ const ImageInput = ({ imgFile, setImgFile }) => {
     <SWrapper>
       <div className="image-upload ">
         <label htmlFor="input-file">
-          <div className="btn-upload">업로드</div>
+          <div className="btn-upload">사진 업로드</div>
         </label>
         <input
           type="file"
@@ -56,9 +56,8 @@ ImageInput.propTypes = {
 };
 
 const SWrapper = styled.div`
-  width: 45%;
+  width: 50%;
   height: 41vh;
-  margin-left: 10px;
   .image-upload {
     margin: 10px;
   }
@@ -67,12 +66,13 @@ const SWrapper = styled.div`
   }
   //파일 업로드버튼
   .btn-upload {
-    width: 65px;
+    width: 85px;
     height: 30px;
     /* padding: 7px 14px; */
     background-color: #d9d4a6;
     border-radius: 4px;
-    color: white;
+    color: black;
+    font-weight: 600;
     font-size: 13px;
     display: flex;
     align-items: center;
