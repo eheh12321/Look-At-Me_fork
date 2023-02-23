@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,9 +43,8 @@ public class LikesService {
      * 회원이 좋아요 누른 게시글 ID Set 리턴
      */
     @Transactional(readOnly = true)
-    public Set<Long> getLikeBoardIdSet(final Member member, final Pageable pageable) {
-        Page<Likes> likePage = likesRepository.findByMember(member, pageable);
-        return likePage.getContent().stream()
+    public Set<Long> getLikeBoardIdSet(final Member member) {
+        return likesRepository.findByMember(member).stream()
                 .map(likes -> likes.getBoard().getBoardId())
                 .collect(Collectors.toSet());
     }
