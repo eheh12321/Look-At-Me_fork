@@ -54,6 +54,7 @@ public class AuthController {
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
+            @RequestHeader("Authorization") String accessToken,
             @RequestHeader("Refresh") String refreshToken,
             HttpServletResponse response) {
 
