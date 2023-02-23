@@ -54,7 +54,6 @@ public class AuthController {
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
-            @RequestHeader("Authorization") String accessToken,
             @RequestHeader("Refresh") String refreshToken,
             HttpServletResponse response) {
 
@@ -63,7 +62,6 @@ public class AuthController {
 
         // 2.Access 토큰 재발급
         String newAccessToken = authService.reissueAccessToken(refreshToken, tokenSubject);
-        authService.addAccessTokenToBlacklist(accessToken); // 기존에 사용하던 액세스 토큰은 사용할 수 없도록 블랙리스트 등록
 
         // TODO: Refresh 토큰도 유효기간을 보고 만료시점이 다가오면 같이 재발급
 
