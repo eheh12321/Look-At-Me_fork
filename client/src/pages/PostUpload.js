@@ -41,7 +41,8 @@ const PostUpload = () => {
     const token = localStorage.getItem('accessToken');
     let formData = new FormData();
     formData.append('userImage', imgFile[0]); //메인 사진
-    formData.append('content', JSON.stringify(inputContent)); //게시글
+    // eslint-disable-next-line
+    formData.append('content', inputContent); //게시글
     for (let i = 0; i < contentList.length; i++) {
       formData.append(
         'products[' + i + '].productImage',
