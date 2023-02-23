@@ -3,7 +3,7 @@ import PostUploadBar from './PostUploadBar';
 import ImageInput from '../components/ImageInput';
 import PlusButton from '../components/Plusbutton';
 import { useState } from 'react';
-import axios from 'axios';
+import server from '../utils/CustomApi';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 
 const PostUpload = () => {
@@ -75,10 +75,9 @@ const PostUpload = () => {
       formData.append('products[' + i + '].category', contentList[i].category);
     }
 
-    axios
-      .post('https://myprojectsite.shop/boards', formData, {
+    server
+      .post('boards', formData, {
         headers: {
-          Authorization: token,
           'Content-Type': 'multipart/form-data',
         },
       })
