@@ -180,7 +180,7 @@ public class BoardService {
         if (memberId != -1) {
             Member loginMember = findMember(memberId);
             Set<Long> followMemberIdList = followService.getFollowMemberIdSet(memberId); // 현재 로그인 한 회원이 팔로우 중인 회원 id list
-            Set<Long> likeBoardIdSet = likesService.getLikeBoardIdSet(loginMember, pageRequest);
+            Set<Long> likeBoardIdSet = likesService.getLikeBoardIdSet(loginMember);
             boardPage.getContent().forEach(
                     board -> {
                         Member member = board.getMember();
