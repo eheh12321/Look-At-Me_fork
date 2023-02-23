@@ -1,9 +1,8 @@
-import styled from 'styled-components';
 import userStore from '../store/userStore';
 import memberstore from '../store/memberstore';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import server from '../utils/CustomApi';
 
 const Google = () => {
   const setUserId = userStore((state) => state.setUserId);
@@ -20,13 +19,8 @@ const Google = () => {
     setisLogin(true);
 
     const getMember = async () => {
-      await axios
-        .get(`https://myprojectsite.shop/members/token`, {
-          params: {},
-          headers: {
-            Authorization: accessToken,
-          },
-        })
+      await server
+        .get(`members/token`)
         .then((res) => {
           console.log(res);
           if (res) {

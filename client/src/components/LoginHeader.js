@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import SearchBox from './SearchBox';
 import userStore from '../store/userStore';
 import memberstore from '../store/memberstore';
-import axios from 'axios';
+import server from '../utils/CustomApi';
 import Logo from '../svg/Logo.svg';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 import Hambar from './HamBar';
@@ -30,25 +30,19 @@ const LoginHeader = () => {
   };
   const Logout = async () => {
     if (confirm('로그아웃 하시겠습니까?')) {
-      const token = localStorage.getItem('accessToken');
-      const res = await axios.post(
-        `${backendUrl}auth/logout`,
-        {},
-        {
-          headers: { Authorization: token },
-        }
-      );
-      if (res) {
+      await server.post(`auth/logout`).finally(() => {
+        // 성공하든 말든 로그아웃 진행
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('myId');
         localStorage.removeItem('loginUserProfile');
+        localStorage.removeItem('atk_expire');
         // eslint-disable-next-line react/prop-types
-      }
-      setisLogin(false);
-      setUserId('');
-      setNickname('');
-      window.location.reload();
+        setisLogin(false);
+        setUserId('');
+        setNickname('');
+        window.location.reload();
+      });
     }
   };
 
