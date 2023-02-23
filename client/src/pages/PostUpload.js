@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import PostUploadBar from './PostUploadBar';
 import ImageInput from '../components/ImageInput';
 import PlusButton from '../components/Plusbutton';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 
@@ -19,21 +19,10 @@ const PostUpload = () => {
       rentalPrice: 0,
       category: '아우터',
     },
-    {
-      productImage: [],
-      brand: '',
-      productName: '',
-      size: '',
-      price: '',
-      link: '',
-      rental: false,
-      rentalPrice: 0,
-      category: '아우터',
-    },
   ]); // PostUploadBar에 전달 , defaultContent기본값 1개뜨게끔
   const [inputContent, setInputContent] = useState(); // textarea 입력값저장
   const [imgFile, setImgFile] = useState([]); // 업로드한 이미지 배열저장
-  console.log('contentList', contentList);
+  const postarea = useRef(null);
 
   const onChangeItem = (index, key, value) => {
     setContentList((preContentList) => {
@@ -52,7 +41,8 @@ const PostUpload = () => {
     const token = localStorage.getItem('accessToken');
     let formData = new FormData();
     formData.append('userImage', imgFile[0]); //메인 사진
-    formData.append('content', JSON.stringify(inputContent)); //게시글
+    // eslint-disable-next-line
+    formData.append('content', inputContent); //게시글
     for (let i = 0; i < contentList.length; i++) {
       formData.append(
         'products[' + i + '].productImage',
@@ -114,7 +104,21 @@ const PostUpload = () => {
       },
     ]);
   };
-
+  const removeContent = () => {
+    setContentList((prev) => {
+      if (prev.length > 1) {
+        return prev.slice(0, -1);
+      } else {
+        return prev;
+      }
+    });
+  };
+  useEffect(() => {
+    // Textarea Autofocus
+    if (postarea.current) {
+      postarea.current.focus();
+    }
+  });
   return (
     <Section>
       <Scontainer>
@@ -134,9 +138,12 @@ const PostUpload = () => {
               placeholder="게시글을 작성하세요."
               value={inputContent}
               onChange={(e) => setInputContent(e.target.value)}
+              ref={postarea}
             ></textarea>
           </div>
         </SMid>
+
+        <h3 className="itemUploadHeader">상품 등록</h3>
 
         {contentList.map((content, index) => {
           return (
@@ -147,7 +154,11 @@ const PostUpload = () => {
             />
           );
         })}
-        <PlusButton onClick={addContent} />
+
+        <div className="btnDiv">
+          <PlusButton onClick={addContent} val={'추가'} />
+          <PlusButton onClick={removeContent} val={'삭제'} />
+        </div>
       </Scontainer>
     </Section>
   );
@@ -166,6 +177,12 @@ const Scontainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  .btnDiv {
+    display: flex;
+  }
+  .itemUploadHeader {
+    align-self: baseline;
+  }
 `;
 
 const SHeader = styled.div`
@@ -181,11 +198,12 @@ const SHeader = styled.div`
     } */
   }
   button {
-    width: 60px;
+    width: 85px;
     height: 30px;
     margin: 15px;
     background-color: #d9d4a6;
-    color: #ffffff;
+    color: black;
+    font-weight: 600;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -206,7 +224,7 @@ const SMid = styled.form`
     width: 540px;
   } */
   .input_box {
-    width: 45%;
+    width: 50%;
     margin: 10px;
     display: flex;
     /* justify-content: end; */
@@ -219,7 +237,6 @@ const SMid = styled.form`
     height: 320px;
     width: 100%; //* 추가
     /* width: 28vw; */
-    border: none;
     margin-top: 10px;
     border-radius: 5px;
     background-color: #ffffff;

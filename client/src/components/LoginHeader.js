@@ -177,7 +177,6 @@ const SHeader = styled.div`
       }
     }
     button {
-      width: 70px;
       height: 30px;
       font-size: 17px;
       border: none;

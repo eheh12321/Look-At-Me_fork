@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Dropdown from '../components/Dropdown';
 import ItemImageInput from '../components/ItemImageInput';
@@ -13,6 +13,7 @@ const PostUploadBar = ({ index, onChangeItem }) => {
   const [itemSite, setItemSite] = useState('');
   const [rentalCheck, setRentalCheck] = useState(false);
   const [rentalPrice, setRentalPrice] = useState('');
+  const isRental = useRef();
   //-----추가부분 드롭다운.-----------
   const [itemDropdown, setItemDropdown] = useState('');
 
@@ -48,9 +49,16 @@ const PostUploadBar = ({ index, onChangeItem }) => {
     setItemSite(e.target.value);
     onChangeItem(index, 'link', e.target.value);
   };
-  const onChangeRentalCheck = () => {
-    setRentalCheck(true);
-    onChangeItem(index, 'rental', true);
+  const onChangeRentalCheck = (e) => {
+    let res = e.target.checked;
+    if (res == false) {
+      isRental.current.style.visibility = 'hidden';
+      onChangeItem(index, 'rentalPrice', 0); // 렌탈 하지 않는 경우 0으로 세팅
+    } else {
+      isRental.current.style.visibility = 'visible';
+    }
+    setRentalCheck(res);
+    onChangeItem(index, 'rental', res);
   };
   const onChangeRentalPrice = (e) => {
     setRentalPrice(e.target.value);
@@ -140,7 +148,7 @@ const PostUploadBar = ({ index, onChangeItem }) => {
               onChange={onChangeRentalCheck}
             ></input>
           </div>
-          <div className="rental-price">
+          <div className="rental-price" ref={isRental}>
             렌탈금액
             <input
               type="text"
@@ -257,6 +265,7 @@ const SRentalcheck = styled.div`
   }
   .rental-price {
     background-color: #faf6e9;
+    visibility: hidden;
   }
   .rental-price > input {
     margin-left: 10px;
