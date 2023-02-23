@@ -4,9 +4,10 @@ import Avatar from '../components/Avatar';
 import { HiOutlinePaperAirplane } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import userStore from '../store/userStore';
 import Pagination from './Pagination';
+import server from '../utils/CustomApi';
+
 const BREAK_POINT_PC = 1300;
 const token = localStorage.getItem('accessToken');
 const Comment = ({ boardId, profile }) => {
@@ -24,17 +25,16 @@ const Comment = ({ boardId, profile }) => {
     setContentValue(e.currentTarget.value);
   };
   const onPostComment = (val) => {
-    axios(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      data: JSON.stringify({
-        boardId: boardId,
-        content: val,
-      }),
-    })
+    const data = JSON.stringify({
+      boardId: boardId,
+      content: val,
+    });
+    server
+      .post(`comment`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then((res) => {
         document.getElementById('test').value = '';
         if (res) {
@@ -53,8 +53,8 @@ const Comment = ({ boardId, profile }) => {
         setPage(commentData.pageInfoDto?.totalPages); // 마지막 페이지 검색
         p = Math.ceil(commentData.pageInfoDto?.totalElements / limit);
       }
-      const res = await axios.get(
-        url + `/board/${params.boardId}?page=${p}&size=${limit}`
+      const res = await server.get(
+        `comment/board/${params.boardId}?page=${p}&size=${limit}`
       );
       setCommentData(res.data);
     } catch (err) {
@@ -78,12 +78,8 @@ const Comment = ({ boardId, profile }) => {
   }, [commentData]);
   const onDelteComment = (id) => {
     if (window.confirm('삭제 하시겠습니까?')) {
-      axios(url + `/${id}`, {
-        method: 'delete',
-        headers: {
-          Authorization: token,
-        },
-      })
+      server
+        .delete(`comment/${id}`)
         .then((res) => {
           if (res) {
             fetchCommentData();
@@ -107,17 +103,9 @@ const Comment = ({ boardId, profile }) => {
   // 댓글수정 저장
   const onSave = async (id) => {
     try {
-      const token = localStorage.getItem('accessToken');
-      await axios.patch(
-        `${url}/${id}`,
-        {
-          content: revise,
-        },
-        {
-          headers: { Authorization: token },
-        },
-        { withCredentials: true }
-      );
+      server.patch(`comment/${id}`, {
+        content: revise,
+      });
     } catch (err) {
       window.alert(err);
     }

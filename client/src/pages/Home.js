@@ -4,11 +4,10 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET, token } from '../constants/index';
-import axios from 'axios';
+import server from '../utils/CustomApi';
 import Slider from '../components/Slider';
 
 const Home = () => {
-  const serverUrl = `https://myprojectsite.shop/boards`;
   const location = useLocation();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -18,17 +17,13 @@ const Home = () => {
   const getPosts = useCallback(async () => {
     if (!endpost) {
       setLoading(true);
-      await axios
-        .get(serverUrl + `?page=${page}&size=6`, {
-          headers: { Authorization: localStorage.getItem('accessToken') },
-        })
-        .then((res) => {
-          if (res.data.data.length == 0) {
-            console.log('모든 데이터를 불러왔습니다.');
-            setEndpost(true);
-          }
-          setData(data.concat(res.data.data));
-        });
+      await server.get(`boards?page=${page}&size=6`).then((res) => {
+        if (res.data.data.length == 0) {
+          console.log('모든 데이터를 불러왔습니다.');
+          setEndpost(true);
+        }
+        setData(data.concat(res.data.data));
+      });
       setLoading(false);
     }
   }, [page]);
@@ -64,10 +59,7 @@ const Home = () => {
     setData(newestResult);
   };
   const onRent = () => {
-    axios({
-      method: 'get', // 통신 방식
-      url: 'https://myprojectsite.shop/boards/search/available', // 서버
-    }).then(function (response) {
+    server.get(`boards/search/available`).then(function (response) {
       setData(response.data.data);
     });
   };

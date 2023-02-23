@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import axios from 'axios';
+import server from '../utils/CustomApi';
 import userStore from '../store/userStore';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -33,14 +33,7 @@ const UserInfo = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
-        const res = await axios.get(
-          `${backendUrl}members/${userId}`,
-          {
-            headers: { Authorization: token },
-          },
-          { withCredentials: true }
-        );
+        const res = await server.get(`members/${userId}`);
         if (res) {
           setNickname(res.data.nickname);
           setFollow(res.data.followeeCnt);
@@ -52,7 +45,6 @@ const UserInfo = () => {
       } catch (err) {
         console.log(err);
       }
-      // axios 내정보받아오기
     };
     getUser();
   }, [userId]);
@@ -63,20 +55,12 @@ const UserInfo = () => {
 
   const save = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      await axios.patch(
-        `${backendUrl}members/${userId}`,
-        {
-          nickname: nickname,
-          profileImageUrl: profileImg,
-          height: height,
-          weight: weight,
-        },
-        {
-          headers: { Authorization: token },
-        },
-        { withCredentials: true }
-      );
+      await server.patch(`members/${userId}`, {
+        nickname: nickname,
+        profileImageUrl: profileImg,
+        height: height,
+        weight: weight,
+      });
     } catch (err) {
       window.alert(err);
     }
@@ -94,13 +78,9 @@ const UserInfo = () => {
 
   const onChangeImg = async (e) => {
     const image = e.target.files[0];
-    const token = localStorage.getItem('accessToken');
     const formData = new FormData();
     formData.append('image', image);
-    const res = await axios.post(`${backendUrl}members/profile`, formData, {
-      headers: { Authorization: token },
-    });
-
+    const res = await server.post(`members/profile`, formData);
     if (res) {
       setProfileImg(res.data.profileImageUrl);
       setIsFixing(false);
