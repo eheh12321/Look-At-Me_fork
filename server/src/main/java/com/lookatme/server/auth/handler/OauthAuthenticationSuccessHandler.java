@@ -1,6 +1,7 @@
 package com.lookatme.server.auth.handler;
 
 import com.lookatme.server.auth.jwt.JwtTokenizer;
+import com.lookatme.server.auth.jwt.RedisRepository;
 import com.lookatme.server.member.entity.Account;
 import com.lookatme.server.member.entity.Member;
 import com.lookatme.server.member.entity.OauthPlatform;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class OauthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenizer jwtTokenizer;
+    private final RedisRepository redisRepository;
     private final MemberRepository memberRepository;
 
     @Override
@@ -36,6 +38,9 @@ public class OauthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
         Member member = getOrRegisterMember(oAuth2User.getAttributes());
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
+
+        // Redis 저장소에 RefreshToken을 저장
+        redisRepository.saveRefreshToken(refreshToken, member.getUniqueKey());
 
         String uri = createURI(accessToken, refreshToken).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
