@@ -53,7 +53,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override // Authorization 헤더가 없거나 Bearer로 시작하지 않으면 필터를 실행하지 않음
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         if (request.getServletPath().equals("/auth/reissue")) {
-            return false; // 재발급 요청이 들어온 경우에는 검증 X
+            return true; // 재발급 요청이 들어온 경우에는 검증 X
         }
         String authorization = request.getHeader("Authorization");
         return authorization == null || !authorization.startsWith("Bearer ");
