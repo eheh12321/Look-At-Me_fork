@@ -40,7 +40,7 @@ const Footer = () => {
   return (
     <FWrapper>
       <div className="team-name">
-        <a href="https://github.com/codestates-seb/seb41_main_035">
+        <a href="https://github.com/eheh12321/Look-At-Me_fork">
           MainProject-035 | 뽐내조
         </a>
       </div>
