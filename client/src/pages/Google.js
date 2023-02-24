@@ -13,9 +13,7 @@ const Google = () => {
   useEffect(() => {
     const urlParams = new URL(location.href).searchParams;
     const accessToken = urlParams.get('access_token');
-    const refreshToken = urlParams.get('refresh_token');
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
     setisLogin(true);
 
     const getMember = async () => {
@@ -26,7 +24,6 @@ const Google = () => {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res) {
             setUserId(res.data.memberId);
             setNickname(res.data.nickname);

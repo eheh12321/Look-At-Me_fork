@@ -1,7 +1,14 @@
 import axios from 'axios';
+import userStore from '../store/userStore';
+import memberstore from '../store/memberstore';
+import { removeCookie } from '../utils/Cookies';
 
 const server = axios.create({
+  headers: {
+    'Access-Control-Allow-Origin': 'https://myprojectsite.shop/',
+  },
   baseURL: 'https://myprojectsite.shop/',
+  withCredentials: true,
 });
 
 server.interceptors.request.use(function (config) {
@@ -28,21 +35,14 @@ server.interceptors.response.use(
       try {
         console.log('토큰 만료 - 재발급 진행');
         const originalRequest = error.config;
-        // 토큰 재발급을 위해 refresh token 같이 전달
-        const data = await server.post(
-          'auth/reissue',
-          {},
-          {
-            headers: { Refresh: localStorage.getItem('refreshToken') },
-          }
-        );
+        const data = await server.post('auth/reissue');
         if (data) {
           localStorage.setItem('accessToken', data.data);
           originalRequest.headers['Authorization'] = data.data;
           return await server.request(originalRequest); // 새로 받은 토큰으로 다시 이전 요청 진행
         }
       } catch (error) {
-        console.log('토큰 갱신 에러 발생: ' + error);
+        console.log('토큰 갱신 에러 발생: ' + error); // 로그아웃 진행
       }
       return Promise.reject(error);
     }
