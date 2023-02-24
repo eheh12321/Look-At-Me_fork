@@ -78,13 +78,13 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("*"));
+        configuration.setMaxAge(60 * 60 * 24L); // prefilght 요청 캐싱 (초단위) - 1일
+        configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더 추가
-        configuration.setAllowedOriginPatterns(List.of("*")); // 허용할 도메인
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://lookatme.myprojectsite.shop")); // 허용할 도메인
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS")); // 허용할 메서드
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 

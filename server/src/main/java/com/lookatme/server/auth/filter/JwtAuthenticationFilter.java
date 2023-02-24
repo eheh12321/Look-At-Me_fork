@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,9 +52,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
-        // JWT 토큰을 만들어서 Response 헤더로 전달
+        // Access Token은 Authorization 헤더를 통한 전달
         response.setHeader("Authorization", accessToken);
-        response.setHeader("Refresh", refreshToken);
+
+        // Refresh Token은 HttpOnly Cookie를 통한 전달
+        Cookie cookie = new Cookie("Refresh", refreshToken);
+        cookie.setMaxAge(jwtTokenizer.getRefreshTokenExpirationMinutes() * 60);
+        cookie.setDomain("myprojectsite.shop");
+        cookie.setSecure(true); // HTTPS 환경에서만 이용 가능
+        cookie.setHttpOnly(true); // 클라이언트 측에서 XSS(악성 스크립트 공격)로 탈취 방지
+        cookie.setPath("/auth/reissue"); // 토큰 재발급 시에만 전송
+        response.addCookie(cookie);
 
         // Redis 저장소에 RefreshToken을 저장
         redisRepository.saveRefreshToken(refreshToken, member.getUniqueKey());
