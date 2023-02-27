@@ -6,6 +6,8 @@ import com.lookatme.server.board.dto.BoardPostDto;
 import com.lookatme.server.board.dto.BoardResponseDto;
 import com.lookatme.server.board.service.BoardService;
 import com.lookatme.server.common.dto.MultiResponseDto;
+import com.lookatme.server.exception.ErrorCode;
+import com.lookatme.server.exception.ErrorLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -29,7 +32,11 @@ public class BoardController {
 
     @GetMapping("/{board-Id}")
     public ResponseEntity<?> getBoard(@Positive @PathVariable("board-Id") long boardId,
-                                      @AuthenticationPrincipal MemberPrincipal memberPrincipal) {
+                                      @AuthenticationPrincipal MemberPrincipal memberPrincipal,
+                                      HttpServletRequest request) {
+        if (memberPrincipal == null) {
+            isValidToken(request);
+        }
         long loginMemberId = memberPrincipal == null ? -1 : memberPrincipal.getMemberId();
         return new ResponseEntity<>(
                 boardService.findBoard(boardId, loginMemberId),
@@ -39,7 +46,11 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<?> getBoards(@Positive @RequestParam(defaultValue = "1") int page,
                                        @Positive @RequestParam(defaultValue = "25") int size,
-                                       @AuthenticationPrincipal MemberPrincipal memberPrincipal) {
+                                       @AuthenticationPrincipal MemberPrincipal memberPrincipal,
+                                       HttpServletRequest request) {
+        if (memberPrincipal == null) {
+            isValidToken(request);
+        }
         long loginMemberId = memberPrincipal == null ? -1 : memberPrincipal.getMemberId();
         Page<BoardResponseDto> findPosts = boardService.findBoards(page - 1, size, loginMemberId);
         List<BoardResponseDto> boards = findPosts.getContent();
@@ -73,8 +84,8 @@ public class BoardController {
 
     @PostMapping("/{board-Id}/like")
     public ResponseEntity<?> likeBoard(@PathVariable("board-Id") long boardId,
-                                       @AuthenticationPrincipal MemberPrincipal memberPrincipal){
-        return new ResponseEntity<>(boardService.likeBoard(memberPrincipal,boardId), HttpStatus.OK);
+                                       @AuthenticationPrincipal MemberPrincipal memberPrincipal) {
+        return new ResponseEntity<>(boardService.likeBoard(memberPrincipal, boardId), HttpStatus.OK);
     }
 
     @GetMapping("/search/product")
@@ -84,7 +95,7 @@ public class BoardController {
                                                     @AuthenticationPrincipal MemberPrincipal memberPrincipal) {
         long loginMemberId = memberPrincipal == null ? -1 : memberPrincipal.getMemberId();
 
-        Page<BoardResponseDto> findBoards = boardService.findBoardsByproductName(productName, page-1, size);
+        Page<BoardResponseDto> findBoards = boardService.findBoardsByproductName(productName, page - 1, size);
         List<BoardResponseDto> boards = findBoards.getContent();
 
         return new ResponseEntity<>(
@@ -98,7 +109,7 @@ public class BoardController {
                                                       @AuthenticationPrincipal MemberPrincipal memberPrincipal) {
         long loginMemberId = memberPrincipal == null ? -1 : memberPrincipal.getMemberId();
 
-        Page<BoardResponseDto> findBoards = boardService.findBoardsByCategoryName(category, page-1, size);
+        Page<BoardResponseDto> findBoards = boardService.findBoardsByCategoryName(category, page - 1, size);
         List<BoardResponseDto> boards = findBoards.getContent();
 
         return new ResponseEntity<>(
@@ -111,10 +122,17 @@ public class BoardController {
                                                       @AuthenticationPrincipal MemberPrincipal memberPrincipal) {
         long loginMemberId = memberPrincipal == null ? -1 : memberPrincipal.getMemberId();
 
-        Page<BoardResponseDto> findBoards = boardService.findBoardsByRentalAvailable(page-1, size);
+        Page<BoardResponseDto> findBoards = boardService.findBoardsByRentalAvailable(page - 1, size);
         List<BoardResponseDto> boards = findBoards.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(boards, findBoards), HttpStatus.OK);
+    }
+
+    private void isValidToken(HttpServletRequest request) {
+        ErrorCode errorCode = (ErrorCode) request.getAttribute("exception");
+        if (errorCode == ErrorCode.TOKEN_EXPIRE) {
+            throw new ErrorLogicException(ErrorCode.TOKEN_EXPIRE);
+        }
     }
 }

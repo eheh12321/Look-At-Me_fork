@@ -3,18 +3,16 @@ import styled from 'styled-components';
 import Avatar from '../components/Avatar';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import server from '../utils/CustomApi';
 
 const Item = () => {
-  const navigate = useNavigate();
   const params = useParams();
-  const url = 'http://13.125.30.88';
   const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(url + `/boards/` + [params.boardId]);
+        const response = await server.get(`boards/` + [params.boardId]);
         setItemData(response.data);
       } catch (err) {
         return err;
@@ -33,7 +31,11 @@ const Item = () => {
           key={item.productId}
           role="presentation"
           onClick={() => {
-            onMoveLink(item.link);
+            if (
+              confirm('외부 상품 구매 사이트로 이동합니다. 계속하시겠습니까?')
+            ) {
+              onMoveLink(item.link);
+            }
           }}
         >
           <div className="item_picture">
@@ -68,10 +70,6 @@ const Item = () => {
   );
 };
 const SItemContainer = styled.div`
-  overflow: auto;
-  height: 110px;
-  margin-bottom: 10px;
-  margin-top: -10px;
   .item_box {
     height: 65px;
     margin-bottom: 13px;

@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.servlet.http.Cookie;
 import java.util.List;
 
 import static com.lookatme.server.util.ApiDocumentUtils.getRequestPreprocessor;
@@ -97,7 +98,6 @@ class AuthControllerSliceTest {
         assertThat(accessToken).startsWith("Bearer "); // Access Token이 Bearer으로 시작하는지 검증
 
         actions.andExpect(status().isOk())
-                .andExpect(header().exists("Refresh")) // response 헤더에 Refresh값이 있는지 검증
                 .andDo(document(
                                 "auth-login",
                                 getRequestPreprocessor(),
@@ -205,7 +205,7 @@ class AuthControllerSliceTest {
         ResultActions actions = mockMvc.perform(
                 post("/auth/reissue")
                         .header("Authorization", accessToken)
-                        .header("Refresh", refreshToken)
+                        .cookie(new Cookie("Refresh", refreshToken))
         );
 
         // Then

@@ -3,19 +3,14 @@ import userStore from '../../store/userStore';
 import { CloseOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Signup from '../Signup/Signup';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import server from '../../utils/CustomApi';
 import memberstore from '../../store/memberstore';
-import { persist } from 'zustand';
 import Logo from '../../svg/Logo.svg';
-
-const backendUrl = 'http://13.125.30.88/';
+import jwt_decode from 'jwt-decode';
 
 function LoginModal(props) {
   const setUserId = userStore((state) => state.setUserId);
-  // 추가부분
   const setNickname = userStore((state) => state.setNickname);
-
   const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +18,7 @@ function LoginModal(props) {
 
   const googleLogin = () => {
     const GoogleAuthLogin =
-      'http://ec2-13-125-30-88.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/google';
+      'https://myprojectsite.shop/oauth2/authorization/google';
     window.location.href = GoogleAuthLogin;
   };
 
@@ -60,27 +55,37 @@ function LoginModal(props) {
   };
 
   const SignIn = async () => {
-    if (validationCheck(id, 'email') && validationCheck(password, 'password'))
-      return true;
-    const res = await axios.post(`${backendUrl}auth/login`, {
-      email: id,
-      password: password,
-    });
-    if (res) {
-      localStorage.setItem('accessToken', res.headers.authorization);
-      localStorage.setItem('refreshToken', res.headers.refresh);
-      const user_id = res.data.memberId;
-      setUserId(user_id);
+    const login = await server
+      .post(`auth/login`, {
+        email: id,
+        password: password,
+      })
+      .then((res) => {
+        const user_id = res.data.memberId;
+        const user_nickname = res.data.nickname;
+        // Access Token - Authorization Header로 받음 / Refresh Token - HttpOnly Cookie로 받음
+        localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
+        // Access Token Decode
+        const decoded = jwt_decode(
+          res.headers.authorization.replace('Bearer ', '')
+        );
+        localStorage.setItem('atk_expire', Math.floor(decoded.exp * 1000)); // 토큰 만료시간 저장
+        localStorage.setItem('myId', decoded.memberId);
 
-      // 추가부분
-      const user_nickname = res.data.nickname;
-      setNickname(user_nickname);
+        setUserId(user_id);
+        setNickname(user_nickname);
+        setisLogin(true);
 
-      // eslint-disable-next-line react/prop-types
-      props.onClose();
-    }
-    setisLogin(true);
-    // axios sign in
+        // eslint-disable-next-line react/prop-types
+        props.onClose();
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        // alert(err.response.data.message);
+      });
+    login();
   };
 
   const goSignUp = () => {
@@ -91,15 +96,15 @@ function LoginModal(props) {
     <Overlay>
       <ModalWrap>
         <CloseOutlined
-          style={{ 'margin-left': '85%', 'margin-top': '5%' }}
+          style={{ marginLeft: '85%', marginTop: '5%' }}
           onClick={closeButton}
         />
         <Contents>
           <h1
             style={{
-              'margin-bottom': '5%',
+              marginBottom: '5%',
               display: 'flex',
-              'justify-content': 'space-evenly',
+              justifyContent: 'space-evenly',
               fontSize: '30px',
               position: 'relative',
               top: '-30px',
@@ -114,14 +119,14 @@ function LoginModal(props) {
             className="id"
             placeholder="아이디"
             style={{
-              'font-size': '14px',
+              fontSize: '14px',
               padding: '12px 12px',
-              'background-color': 'gary',
-              'border-radius': '8px',
+              backgroundColor: 'gary',
+              borderRadius: '8px',
               width: '250px',
               color: 'black',
-              'font-weight': '200',
-              'margin-top': '-30px',
+              fontWeight: '200',
+              marginTop: '-30px',
               position: 'relative',
               border: '1.5px solid #C1C1C1',
               top: '-20px',
@@ -133,14 +138,14 @@ function LoginModal(props) {
             placeholder="비밀번호"
             type="password"
             style={{
-              'font-size': '14px',
+              fontSize: '14px',
               padding: '12px 12px',
               width: '250px',
-              'background-color': 'gary',
-              'border-radius': '8px',
+              backgroundColor: 'gary',
+              borderRadius: '8px',
               color: 'black',
-              'font-weight': '200',
-              'margin-top': '-30px',
+              fontWeight: '200',
+              marginTop: '-30px',
               position: 'relative',
               top: '0px',
               border: '1.5px solid #C1C1C1',
@@ -153,10 +158,10 @@ function LoginModal(props) {
           <div
             style={{
               display: 'flex',
-              'align-items': 'center',
-              'margin-top': '17px',
-              'margin-bottom': '10px',
-              'justify-content': 'center',
+              alignItems: 'center',
+              marginTop: '17px',
+              marginBottom: '10px',
+              justifyContent: 'center',
             }}
           >
             <div>아직 회원이 아니신가요?</div>

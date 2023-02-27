@@ -99,7 +99,9 @@ public class JwtTokenizer {
         return calendar.getTime();
     }
 
-    // 현재 토큰 남은 시간이 얼마나 되는지
+    /**
+     * 현재 토큰 남은 시간이 얼마나 되는지 (밀리초 단위)
+     */
     public long calculateRemainExpiration(String token) {
         Jws<Claims> claims = getClaims(token, encodeBase64SecretKey(secretKey));
         long expireDatetime = claims.getBody().getExpiration().getTime();
