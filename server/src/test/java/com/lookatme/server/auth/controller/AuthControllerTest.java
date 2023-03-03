@@ -254,10 +254,10 @@ class AuthControllerTest {
         assertThat(newAccessToken).startsWith("Bearer ");
 
         // 3. 기존에 쓰던 액세스 토큰은 블랙리스트에 올라가야함
-//        boolean hasAccessToken = redisRepository.hasAccessTokenInBlacklist(
-//                accessToken.replace("Bearer ", "")
-//        );
-//        assertThat(hasAccessToken).isTrue();
+        boolean hasAccessToken = redisRepository.hasAccessTokenInBlacklist(
+                accessToken.replace("Bearer ", "")
+        );
+        assertThat(hasAccessToken).isTrue();
     }
 
     @DisplayName("탈퇴한 회원은 로그인 불가")
