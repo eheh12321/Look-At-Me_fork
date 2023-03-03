@@ -31,7 +31,7 @@ const Category = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://myprojectsite.shop/boards`);
+      const response = await axios.get(`http://13.125.30.88/boards`);
       setData(response.data.data);
     } catch {
       window.alert('오류가 발생했습니다.');
@@ -40,7 +40,7 @@ const Category = () => {
   const fetchRentData = async () => {
     try {
       const response = await axios.get(
-        `https://myprojectsite.shop/boards/search/available`
+        `http://13.125.30.88/boards/search/available`
       );
       setData(response.data.data);
       console.log(response.data.data);

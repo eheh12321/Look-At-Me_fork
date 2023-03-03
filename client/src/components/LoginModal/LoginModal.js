@@ -9,7 +9,7 @@ import memberstore from '../../store/memberstore';
 import { persist } from 'zustand';
 import Logo from '../../svg/Logo.svg';
 
-const backendUrl = 'https://myprojectsite.shop/';
+const backendUrl = 'http://13.125.30.88/';
 
 function LoginModal(props) {
   const setUserId = userStore((state) => state.setUserId);
@@ -23,7 +23,7 @@ function LoginModal(props) {
 
   const googleLogin = () => {
     const GoogleAuthLogin =
-      'https://myprojectsite.shop/oauth2/authorization/google';
+      'http://ec2-13-125-30-88.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/google';
     window.location.href = GoogleAuthLogin;
   };
 

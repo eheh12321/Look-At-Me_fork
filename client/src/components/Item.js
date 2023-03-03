@@ -8,7 +8,7 @@ import axios from 'axios';
 const Item = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const url = 'https://myprojectsite.shop';
+  const url = 'http://13.125.30.88';
   const [itemData, setItemData] = useState([]);
 
   useEffect(() => {

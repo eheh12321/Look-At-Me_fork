@@ -10,7 +10,7 @@ const BREAK_POINT_PC = 1300;
 const token = localStorage.getItem('accessToken');
 const Comment = ({ boardId, profile }) => {
   const params = useParams();
-  const url = 'https://myprojectsite.shop/comment';
+  const url = 'http://13.125.30.88/comment';
 
   const [commentData, setCommentData] = useState([]);
   const [contentValue, setContentValue] = useState('');

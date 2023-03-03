@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { BREAK_POINT_TABLET, token } from '../constants/index';
 import axios from 'axios';
-const backendUrl = 'https://myprojectsite.shop/';
+const backendUrl = 'http://13.125.30.88/';
 // 게시물 하나에 해당하는 컴포넌트 -게시물 하나에 대한 정보를 나타냄
 const Post = ({ post }) => {
   const navigate = useNavigate();

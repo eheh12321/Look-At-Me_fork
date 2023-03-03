@@ -4,7 +4,7 @@ import { CloseOutlined, LeftSquareFilled } from '@ant-design/icons';
 import { useState } from 'react';
 import Logo from '../../svg/Logo.svg';
 
-const backendUrl = 'https://myprojectsite.shop/';
+const backendUrl = 'http://13.125.30.88/';
 
 function Signup(props) {
   const [id, setId] = useState('');

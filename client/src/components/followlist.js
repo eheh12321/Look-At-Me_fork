@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Avatar from '../components/Avatar';
 import axios from 'axios';
 
-const backendUrl = 'https://myprojectsite.shop/';
+const backendUrl = 'http://13.125.30.88/';
 
 function FollowModal(props) {
   const [followData, setFollowData] = useState([]);
