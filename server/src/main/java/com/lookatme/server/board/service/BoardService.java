@@ -238,7 +238,6 @@ public class BoardService {
 
         for (Rental rental : boardRentals) {
             Board board = rental.getBoard();
-            System.out.println(board);
             if (idList.contains(board.getBoardId())) {
                 continue;
             }
