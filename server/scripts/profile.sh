@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
+DOMAIN=https://myprojectsite.shop/auth/profile
+
 # 쉬고있는 profile 찾기
 function find_idle_profile() {
-    DOMAIN=https://myprojectsite.shop/auth/profile
 
     # 현재 애플리케이션이 몇번 포트로 실행되고 있는지 확인
     RESPONSE_CODE=$(curl --max-time 5 -s -o /dev/null -w "%{http_code}" $DOMAIN)
@@ -13,10 +14,10 @@ function find_idle_profile() {
     else # 정상 상태(200) 이라면
       CURRENT_PROFILE=$(curl -s $DOMAIN) # 사이트에서 현재 사용중인 포트를 응답해줌(real1/real2)
     fi
-    # 현재 nginx가 real1 포트로 연결되어 있음 -> 새로운 앱은 real2 포트로 연결되어야 함
+
     if [ "${CURRENT_PROFILE}" == real1 ]
     then
-      IDLE_PROFILE=real2
+      IDLE_PROFILE=real2;
     else
       IDLE_PROFILE=real1
     fi
@@ -24,13 +25,26 @@ function find_idle_profile() {
     echo "${IDLE_PROFILE}"
 }
 
-# profile -> port 변환
+# 쉬고 있는 profile의 port 찾기
 function find_idle_port() {
   IDLE_PROFILE=$(find_idle_profile) # SubShell 호출
+
   if [ "${IDLE_PROFILE}" == real1 ]
   then
     echo "8081"
   else
     echo "8082"
+  fi
+}
+
+# 현재 운영중인 포트
+function find_current_port() {
+  IDLE_PROFILE=$(find_idle_profile) # SubShell 호출
+
+  if [ "${IDLE_PROFILE}" == real1 ]
+  then
+    echo "8082"
+  else
+    echo "8081"
   fi
 }
