@@ -1,45 +1,35 @@
 import styled from 'styled-components';
 import PostBox from '../components/PostBox';
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useState, useEffect } from 'react';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET, token } from '../constants/index';
 import axios from 'axios';
 import Slider from '../components/Slider';
 
 const Home = () => {
-  const serverUrl = `https://myprojectsite.shop/boards`;
   const location = useLocation();
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [endpost, setEndpost] = useState(false);
-  const [ref, inView] = useInView();
-  const getPosts = useCallback(async () => {
-    if (!endpost) {
-      setLoading(true);
-      await axios
-        .get(serverUrl + `?page=${page}&size=6`, {
-          headers: { Authorization: localStorage.getItem('accessToken') },
-        })
-        .then((res) => {
-          if (res.data.data.length == 0) {
-            console.log('모든 데이터를 불러왔습니다.');
-            setEndpost(true);
-          }
-          setData(data.concat(res.data.data));
-        });
-      setLoading(false);
-    }
-  }, [page]);
   useEffect(() => {
-    getPosts();
-  }, [getPosts]);
-  useEffect(() => {
-    if (inView && !loading) {
-      setPage((prevState) => prevState + 1);
-    }
-  }, [inView, loading]);
+    window.scrollTo(0, 0);
+    const fetchData = async () => {
+      const token = localStorage.getItem('accessToken');
+      try {
+        if (location.pathname === '/') {
+          const response = await axios.get(
+            `https://myprojectsite.shop/boards`,
+            {
+              headers: { Authorization: token },
+            }
+          );
+          setData(response.data.data);
+        }
+      } catch {
+        window.alert('오류가 발생했습니다.');
+      }
+    };
+    fetchData();
+  }, [location.pathname]);
+
   const onNew = () => {
     let newArr = [...data]; //전체 data배열에 추가
     let newestResult = newArr.sort((a, b) => {
@@ -95,11 +85,6 @@ const Home = () => {
               </button>
             </Filter>
             <PostBox data={data} />
-            {!endpost && (
-              <div ref={ref}>
-                <p>이 문장이 보이면 새로운 데이터를 불러옵니다...</p>
-              </div>
-            )}
           </div>
         </div>
       </SWrapper>

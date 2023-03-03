@@ -45,14 +45,9 @@ const Comment = ({ boardId, profile }) => {
         return err;
       });
   };
-  const fetchCommentData = async () => {
+  const fetchCommentData = async (p) => {
     try {
-      let offset = (page - 1) * limit;
-      let p = page;
-      if (commentData.pageInfoDto?.totalElements < offset) {
-        setPage(commentData.pageInfoDto?.totalPages); // 마지막 페이지 검색
-        p = Math.ceil(commentData.pageInfoDto?.totalElements / limit);
-      }
+      if (p == undefined) p = page;
       const res = await axios.get(
         url + `/board/${params.boardId}?page=${p}&size=${limit}`
       );
@@ -70,12 +65,28 @@ const Comment = ({ boardId, profile }) => {
       }
     }
   };
+  const paging = async () => {
+    let offset = (page - 1) * limit;
+    console.log('Offset: ' + offset);
+    if (commentData.pageInfoDto?.totalElements < offset) {
+      setPage(commentData.pageInfoDto?.totalPages); // 마지막 페이지로 이동
+      console.log(Math.ceil(commentData.pageInfoDto?.totalElements / limit));
+      fetchCommentData(
+        Math.ceil(commentData.pageInfoDto?.totalElements / limit)
+      );
+    } else {
+      fetchCommentData();
+    }
+  };
   useEffect(() => {
     fetchCommentData();
-  }, [page, limit]);
+  }, []);
   useEffect(() => {
     filtering();
   }, [commentData]);
+  useEffect(() => {
+    paging();
+  }, [page, limit]);
   const onDelteComment = (id) => {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios(url + `/${id}`, {

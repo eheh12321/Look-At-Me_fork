@@ -73,7 +73,7 @@ const Hambar = ({ onBarOpen, userId, Logout, onClickButton }) => {
               </div>
             </div>
           )}
-          {/* <SearchBox /> */}
+          <SearchBox />
           <div>
             <p className="title">카테고리</p>
           </div>
