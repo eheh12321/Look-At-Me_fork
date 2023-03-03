@@ -65,7 +65,7 @@ const PostView = () => {
     fetchData();
   }, []);
   const onPostDelete = () => {
-    if (window.confirm('게시글을 삭제 하시겠습니까?')) {
+    if (window.confirm('삭제 하시겠습니까?')) {
       server
         .delete(`boards/` + [params.boardId])
         .then((res) => {
@@ -74,8 +74,7 @@ const PostView = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
-          alert('오류가 발생했습니다.');
+          return err;
         });
     }
   };
@@ -180,7 +179,7 @@ const PostView = () => {
                   onClick={onPostDelete}
                   ref={postDelete}
                 >
-                  삭제
+                  Delete
                 </span>
               </div>
             </SMiddle>
