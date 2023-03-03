@@ -32,7 +32,7 @@ const Writer = [
   {
     name: '조혜주',
     role: 'Backend',
-    github: `${GITHUB_URL}/hyejuc`,
+    github: `${GITHUB_URL}/codestates-seb/seb41_main_035`,
   },
 ];
 
