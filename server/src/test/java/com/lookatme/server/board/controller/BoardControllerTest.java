@@ -153,7 +153,15 @@ class BoardControllerTest {
                                         fieldWithPath("products[].rental.rentalId").description("렌탈 번호"),
                                         fieldWithPath("products[].rental.size").description("렌탈 상품 사이즈"),
                                         fieldWithPath("products[].rental.rentalPrice").description("렌탈 가격"),
-                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부")
+                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부"),
+                                        fieldWithPath("comments[].commentId").description("댓글 번호"),
+                                        fieldWithPath("comments[].content").description("댓글 내용"),
+                                        fieldWithPath("comments[].createdDate").description("댓글 작성 시각"),
+                                        fieldWithPath("comments[].updatedDate").description("댓글 수정 시각"),
+                                        fieldWithPath("comments[].member.memberId").description("댓글 작성자 회원 번호"),
+                                        fieldWithPath("comments[].member.nickname").description("댓글 작성자 닉네임"),
+                                        fieldWithPath("comments[].member.profileImageUrl").description("댓글 작성자 프로필 사진"),
+                                        fieldWithPath("comments[].member.delete").description("댓글 작성자 탈퇴 유무")
                                 )
                         )
                 ));
@@ -227,6 +235,14 @@ class BoardControllerTest {
                                         fieldWithPath("data[].products[].rental.size").description("렌탈 상품 사이즈"),
                                         fieldWithPath("data[].products[].rental.rentalPrice").description("렌탈 가격"),
                                         fieldWithPath("data[].products[].rental.available").description("렌탈 가능 여부"),
+                                        fieldWithPath("data[].comments[].commentId").description("댓글 번호"),
+                                        fieldWithPath("data[].comments[].content").description("댓글 내용"),
+                                        fieldWithPath("data[].comments[].createdDate").description("댓글 작성 시각"),
+                                        fieldWithPath("data[].comments[].updatedDate").description("댓글 수정 시각"),
+                                        fieldWithPath("data[].comments[].member.memberId").description("댓글 작성자 회원 번호"),
+                                        fieldWithPath("data[].comments[].member.nickname").description("댓글 작성자 닉네임"),
+                                        fieldWithPath("data[].comments[].member.profileImageUrl").description("댓글 작성자 프로필 사진"),
+                                        fieldWithPath("data[].comments[].member.delete").description("댓글 작성자 탈퇴 유무"),
                                         fieldWithPath("pageInfoDto.page").description("페이지"),
                                         fieldWithPath("pageInfoDto.size").description("페이지 당 데이터 개수"),
                                         fieldWithPath("pageInfoDto.totalElements").description("전체 데이터 개수"),
@@ -336,7 +352,15 @@ class BoardControllerTest {
                                         fieldWithPath("products[].rental.rentalId").description("렌탈 번호"),
                                         fieldWithPath("products[].rental.size").description("렌탈 상품 사이즈"),
                                         fieldWithPath("products[].rental.rentalPrice").description("렌탈 가격"),
-                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부")
+                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부"),
+                                        fieldWithPath("comments[].commentId").description("댓글 번호"),
+                                        fieldWithPath("comments[].content").description("댓글 내용"),
+                                        fieldWithPath("comments[].createdDate").description("댓글 작성 시각"),
+                                        fieldWithPath("comments[].updatedDate").description("댓글 수정 시각"),
+                                        fieldWithPath("comments[].member.memberId").description("댓글 작성자 회원 번호"),
+                                        fieldWithPath("comments[].member.nickname").description("댓글 작성자 닉네임"),
+                                        fieldWithPath("comments[].member.profileImageUrl").description("댓글 작성자 프로필 사진"),
+                                        fieldWithPath("comments[].member.delete").description("댓글 작성자 탈퇴 유무")
                                 )
                         )
                 ));
@@ -447,7 +471,15 @@ class BoardControllerTest {
                                         fieldWithPath("products[].rental.rentalId").description("렌탈 번호"),
                                         fieldWithPath("products[].rental.size").description("렌탈 상품 사이즈"),
                                         fieldWithPath("products[].rental.rentalPrice").description("렌탈 가격"),
-                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부")
+                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부"),
+                                        fieldWithPath("comments[].commentId").description("댓글 번호"),
+                                        fieldWithPath("comments[].content").description("댓글 내용"),
+                                        fieldWithPath("comments[].createdDate").description("댓글 작성 시각"),
+                                        fieldWithPath("comments[].updatedDate").description("댓글 수정 시각"),
+                                        fieldWithPath("comments[].member.memberId").description("댓글 작성자 회원 번호"),
+                                        fieldWithPath("comments[].member.nickname").description("댓글 작성자 닉네임"),
+                                        fieldWithPath("comments[].member.profileImageUrl").description("댓글 작성자 프로필 사진"),
+                                        fieldWithPath("comments[].member.delete").description("댓글 작성자 탈퇴 유무")
                                 )
                         )
                 ));
@@ -490,7 +522,9 @@ class BoardControllerTest {
                 .likeCnt(1)
                 .like(false)
                 .member(memberResponse)
-                .products(List.of(productResponse)).build();
+                .products(List.of(productResponse))
+                .comments(List.of(commentResponse))
+                .build();
 
         given(boardService.likeBoard(Mockito.any(MemberPrincipal.class), Mockito.anyLong())).willReturn(boardResponse);
 
@@ -540,7 +574,15 @@ class BoardControllerTest {
                                         fieldWithPath("products[].rental.rentalId").description("렌탈 번호"),
                                         fieldWithPath("products[].rental.size").description("렌탈 상품 사이즈"),
                                         fieldWithPath("products[].rental.rentalPrice").description("렌탈 가격"),
-                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부")
+                                        fieldWithPath("products[].rental.available").description("렌탈 가능 여부"),
+                                        fieldWithPath("comments[].commentId").description("댓글 번호"),
+                                        fieldWithPath("comments[].content").description("댓글 내용"),
+                                        fieldWithPath("comments[].createdDate").description("댓글 작성 시각"),
+                                        fieldWithPath("comments[].updatedDate").description("댓글 수정 시각"),
+                                        fieldWithPath("comments[].member.memberId").description("댓글 작성자 회원 번호"),
+                                        fieldWithPath("comments[].member.nickname").description("댓글 작성자 닉네임"),
+                                        fieldWithPath("comments[].member.profileImageUrl").description("댓글 작성자 프로필 사진"),
+                                        fieldWithPath("comments[].member.delete").description("댓글 작성자 탈퇴 유무")
                                 )
                         )
                 ));
@@ -560,7 +602,8 @@ class BoardControllerTest {
                 .likeCnt(0)
                 .like(false)
                 .member(member)
-                .products(products).build();
+                .products(products)
+                .comments(comments).build();
     }
 
     private BoardProductsResponseDto createProductResponse() {

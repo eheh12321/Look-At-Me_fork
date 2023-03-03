@@ -8,21 +8,20 @@ import { useNavigate } from 'react-router-dom';
 import SearchBox from './SearchBox';
 import userStore from '../store/userStore';
 import memberstore from '../store/memberstore';
-import server from '../utils/CustomApi';
+import axios from 'axios';
 import Logo from '../svg/Logo.svg';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 import Hambar from './HamBar';
-import { removeCookie } from '../utils/Cookies';
-const backendUrl = 'https://myprojectsite.shop/';
+const backendUrl = 'http://13.125.30.88/';
 
 const LoginHeader = () => {
   const { isLogin, setisLogin } = memberstore((state) => state);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { userId, setUserId } = userStore((state) => state);
-  const setNickname = userStore((state) => state.setNickname);
   const [isBarOpen, setIsBarOpen] = useState(false);
   const myId = JSON.parse(localStorage.getItem('myId'));
+  console.log(myId);
   const onClickButton = () => {
     setIsOpen(true);
   };
@@ -30,22 +29,20 @@ const LoginHeader = () => {
     setIsBarOpen((prev) => !prev);
   };
   const Logout = async () => {
-    if (confirm('로그아웃 하시겠습니까?')) {
-      await server.post(`auth/logout`).finally(() => {
-        // 성공하든 말든 로그아웃 진행
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('myId');
-        localStorage.removeItem('loginUserProfile');
-        localStorage.removeItem('atk_expire');
-        // eslint-disable-next-line react/prop-types
-        setisLogin(false);
-        setUserId('');
-        setNickname('');
-        removeCookie('Refresh');
-        window.location.reload();
-      });
+    const token = localStorage.getItem('accessToken');
+    const res = await axios.post(
+      `${backendUrl}auth/logout`,
+      {},
+      {
+        headers: { Authorization: token },
+      }
+    );
+    if (res) {
+      localStorage.removeItem('accessToken');
+      // eslint-disable-next-line react/prop-types
     }
+    setisLogin(false);
+    setUserId('');
   };
 
   return (
@@ -64,7 +61,7 @@ const LoginHeader = () => {
                 width="200px"
               />
             </div>
-            {/* <SearchBox /> */}
+            <SearchBox />
             {!localStorage.getItem('accessToken') ? (
               <div className="right zone">
                 <button className="login button" onClick={onClickButton}>
@@ -173,6 +170,7 @@ const SHeader = styled.div`
       }
     }
     button {
+      width: 70px;
       height: 30px;
       font-size: 17px;
       border: none;

@@ -32,7 +32,7 @@ const Writer = [
   {
     name: '조혜주',
     role: 'Backend',
-    github: `${GITHUB_URL}/hyejuc`,
+    github: `${GITHUB_URL}/codestates-seb/seb41_main_035`,
   },
 ];
 
@@ -40,7 +40,7 @@ const Footer = () => {
   return (
     <FWrapper>
       <div className="team-name">
-        <a href="https://github.com/eheh12321/Look-At-Me_fork">
+        <a href="https://github.com/codestates-seb/seb41_main_035">
           MainProject-035 | 뽐내조
         </a>
       </div>

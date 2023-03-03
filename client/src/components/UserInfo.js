@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import server from '../utils/CustomApi';
+import axios from 'axios';
 import userStore from '../store/userStore';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FollowModal from './followlist';
-const backendUrl = 'https://myprojectsite.shop/';
+const backendUrl = 'http://13.125.30.88/';
 import { BREAK_POINT_TABLET, BREAK_POINT_PC } from '../constants/index';
 
 const UserInfo = () => {
@@ -33,7 +33,14 @@ const UserInfo = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await server.get(`members/${userId}`);
+        const token = localStorage.getItem('accessToken');
+        const res = await axios.get(
+          `${backendUrl}members/${userId}`,
+          {
+            headers: { Authorization: token },
+          },
+          { withCredentials: true }
+        );
         if (res) {
           setNickname(res.data.nickname);
           setFollow(res.data.followeeCnt);
@@ -45,6 +52,7 @@ const UserInfo = () => {
       } catch (err) {
         console.log(err);
       }
+      // axios 내정보받아오기
     };
     getUser();
   }, [userId]);
@@ -55,12 +63,20 @@ const UserInfo = () => {
 
   const save = async () => {
     try {
-      await server.patch(`members/${userId}`, {
-        nickname: nickname,
-        profileImageUrl: profileImg,
-        height: height,
-        weight: weight,
-      });
+      const token = localStorage.getItem('accessToken');
+      await axios.patch(
+        `${backendUrl}members/${userId}`,
+        {
+          nickname: nickname,
+          profileImageUrl: profileImg,
+          height: height,
+          weight: weight,
+        },
+        {
+          headers: { Authorization: token },
+        },
+        { withCredentials: true }
+      );
     } catch (err) {
       window.alert(err);
     }
@@ -78,9 +94,13 @@ const UserInfo = () => {
 
   const onChangeImg = async (e) => {
     const image = e.target.files[0];
+    const token = localStorage.getItem('accessToken');
     const formData = new FormData();
     formData.append('image', image);
-    const res = await server.post(`members/profile`, formData);
+    const res = await axios.post(`${backendUrl}members/profile`, formData, {
+      headers: { Authorization: token },
+    });
+
     if (res) {
       setProfileImg(res.data.profileImageUrl);
       setIsFixing(false);

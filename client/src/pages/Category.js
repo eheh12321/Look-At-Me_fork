@@ -4,8 +4,7 @@ import { BiCaretDownCircle } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
 import CATEGORY_CODE from '../constants/index';
 import { useState, useEffect, useMemo } from 'react';
-import server from '../utils/CustomApi';
-
+import axios from 'axios';
 const PRODUCT = {
   outer: '아우터',
   top: '상의',
@@ -32,7 +31,7 @@ const Category = () => {
 
   const fetchData = async () => {
     try {
-      const response = await server.get(`https://myprojectsite.shop/boards`);
+      const response = await axios.get(`http://13.125.30.88/boards`);
       setData(response.data.data);
     } catch {
       window.alert('오류가 발생했습니다.');
@@ -40,8 +39,8 @@ const Category = () => {
   };
   const fetchRentData = async () => {
     try {
-      const response = await server.get(
-        `https://myprojectsite.shop/boards/search/available`
+      const response = await axios.get(
+        `http://13.125.30.88/boards/search/available`
       );
       setData(response.data.data);
       console.log(response.data.data);

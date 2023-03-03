@@ -40,7 +40,7 @@ const ItemImageInput = ({
     <SWrapper>
       <div className="image-upload ">
         <label htmlFor={`input-imgfile${index}`}>
-          <div className="btn-upload">사진 업로드</div>
+          <div className="btn-upload">제품업로드</div>
         </label>
         <input
           type="file"
@@ -85,8 +85,7 @@ const SWrapper = styled.div`
     /* padding: 7px 14px; */
     background-color: #d9d4a6;
     border-radius: 4px;
-    color: black;
-    font-weight: 600;
+    color: white;
     font-size: 13px;
     display: flex;
     align-items: center;

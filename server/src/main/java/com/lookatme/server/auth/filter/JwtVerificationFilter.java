@@ -52,9 +52,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     @Override // Authorization 헤더가 없거나 Bearer로 시작하지 않으면 필터를 실행하지 않음
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        if (request.getServletPath().equals("/auth/reissue")) {
-            return true; // 재발급 요청이 들어온 경우에는 검증 X
-        }
         String authorization = request.getHeader("Authorization");
         return authorization == null || !authorization.startsWith("Bearer ");
     }
@@ -62,12 +59,12 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     // Access 토큰 검증 - 예외가 발생하지 않으면 토큰 검증 통과한 것 (Key가 맞지 않으면 claims를 얻어올 수 없으므로..)
     private Map<String, Object> verifyJws(HttpServletRequest request) {
         String jws = request.getHeader("Authorization").replace("Bearer ", "");
-
+        
         // AccessToken이 블랙리스트에 등록되어있는 경우 예외 발생
         if (redisRepository.hasAccessTokenInBlacklist(jws)) {
             throw new ErrorLogicException(ErrorCode.TOKEN_LOGOUT);
         }
-
+        
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         return jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();

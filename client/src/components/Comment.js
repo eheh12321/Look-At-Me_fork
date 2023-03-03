@@ -4,39 +4,37 @@ import Avatar from '../components/Avatar';
 import { HiOutlinePaperAirplane } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import userStore from '../store/userStore';
-import Pagination from './Pagination';
-import server from '../utils/CustomApi';
-
 const BREAK_POINT_PC = 1300;
 const token = localStorage.getItem('accessToken');
 const Comment = ({ boardId, profile }) => {
-  // Paging
-  const [limit, setLimit] = useState(5);
-  const [page, setPage] = useState(1);
-
   const params = useParams();
-  const url = 'https://myprojectsite.shop/comment';
+  const url = 'http://13.125.30.88/comment';
+
   const [commentData, setCommentData] = useState([]);
   const [contentValue, setContentValue] = useState('');
+
+  //추가부분
   const { nickname } = userStore((state) => state);
 
   const onContentChange = (e) => {
     setContentValue(e.currentTarget.value);
   };
-  const onPostComment = (val) => {
-    const data = JSON.stringify({
-      boardId: boardId,
-      content: val,
-    });
-    server
-      .post(`comment`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+  console.log(contentValue);
+  const onPostComment = () => {
+    axios(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      data: JSON.stringify({
+        boardId: boardId,
+        content: contentValue,
+      }),
+    })
       .then((res) => {
-        document.getElementById('test').value = '';
         if (res) {
           fetchCommentData();
         }
@@ -47,39 +45,28 @@ const Comment = ({ boardId, profile }) => {
   };
   const fetchCommentData = async () => {
     try {
-      let offset = (page - 1) * limit;
-      let p = page;
-      if (commentData.pageInfoDto?.totalElements < offset) {
-        setPage(commentData.pageInfoDto?.totalPages); // 마지막 페이지 검색
-        p = Math.ceil(commentData.pageInfoDto?.totalElements / limit);
-      }
-      const res = await server.get(
-        `comment/board/${params.boardId}?page=${p}&size=${limit}`
+      const response = await axios.get(
+        url + `/board/${params.boardId}?page=1&size=10`
       );
-      setCommentData(res.data);
+      setCommentData(response.data);
+      console.log(response.data);
     } catch (err) {
       return err;
     }
-  };
-  const filtering = async () => {
-    // 로그인 한 회원의 댓글만 수정/삭제 버튼이 보이도록 반복문
-    const elems = document.getElementsByClassName('comment_box');
-    for (var i = 0; i < elems.length; i++) {
-      if (nickname != elems[i].children[0].children[1].innerHTML) {
-        elems[i].children[1].style.display = 'none';
-      }
-    }
+    //데이터 받아오기 가능하면 지우고 response.data로 변경
   };
   useEffect(() => {
     fetchCommentData();
-  }, [page, limit]);
-  useEffect(() => {
-    filtering();
-  }, [commentData]);
+  }, []);
+
   const onDelteComment = (id) => {
     if (window.confirm('삭제 하시겠습니까?')) {
-      server
-        .delete(`comment/${id}`)
+      axios(url + `/${id}`, {
+        method: 'delete',
+        headers: {
+          Authorization: token,
+        },
+      })
         .then((res) => {
           if (res) {
             fetchCommentData();
@@ -88,10 +75,6 @@ const Comment = ({ boardId, profile }) => {
         .catch((err) => console.log('Error', err.message));
     }
   };
-  const isReadonly = token == null ? true : false;
-  const commentPlaceholder = isReadonly
-    ? '로그인 하고 댓글을 달아보세요 :D'
-    : '댓글 달기...';
 
   //댓글 수정부분
   const [revise, setRevise] = useState(''); //댓글 수정창에 입력한 값이 저장
@@ -103,9 +86,17 @@ const Comment = ({ boardId, profile }) => {
   // 댓글수정 저장
   const onSave = async (id) => {
     try {
-      server.patch(`comment/${id}`, {
-        content: revise,
-      });
+      const token = localStorage.getItem('accessToken');
+      await axios.patch(
+        `${url}/${id}`,
+        {
+          content: revise,
+        },
+        {
+          headers: { Authorization: token },
+        },
+        { withCredentials: true }
+      );
     } catch (err) {
       window.alert(err);
     }
@@ -129,24 +120,7 @@ const Comment = ({ boardId, profile }) => {
 
   return (
     <SWrapper>
-      <div className="comment_count">
-        <span>댓글 </span>
-        {commentData.pageInfoDto?.totalElements}
-        <label className="comment_paging_label">
-          페이지 당 댓글 수:&nbsp;
-          <select
-            type="number"
-            value={limit}
-            onChange={({ target: { value } }) => setLimit(Number(value))}
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-          </select>
-        </label>
-      </div>
+      <div className="comment_count">댓글 {commentData.data?.length}</div>
       <div className="line"></div>
       <form className="commentWrap">
         <div className="my_avatar">
@@ -155,15 +129,13 @@ const Comment = ({ boardId, profile }) => {
         <div className="user-name"></div>
         <div className="comment-input">
           <input
-            id="test"
             type="text"
-            placeholder={commentPlaceholder}
+            placeholder="댓글달기..."
+            value={contentValue}
             onChange={onContentChange}
-            readOnly={isReadonly}
           />
 
           <button
-            type="button"
             disabled={!contentValue}
             onClick={() => {
               onPostComment(contentValue);
@@ -184,7 +156,11 @@ const Comment = ({ boardId, profile }) => {
                 </div>
                 <div className="user_name">{comment.nickname}</div>
                 {editCommentId === comment.commentId ? ( //현재 수정중인 Comment와 동일한CommentId를 가지고있는지?
-                  <SInput value={revise} onChange={onChangeInput}></SInput>
+                  <SInput
+                    // value={comment.content}
+                    value={revise}
+                    onChange={onChangeInput}
+                  ></SInput>
                 ) : (
                   <div className="comment_content">{comment.content}</div>
                 )}
@@ -223,14 +199,6 @@ const Comment = ({ boardId, profile }) => {
             </div>
           ))}
       </div>
-      <footer>
-        <Pagination
-          total={commentData.pageInfoDto?.totalElements}
-          limit={limit}
-          page={page}
-          setPage={setPage}
-        />
-      </footer>
     </SWrapper>
   );
 };
@@ -302,7 +270,7 @@ const SWrapper = styled.div`
     }
   }
   .comment_container {
-    max-height: 25vh; // 한 스크롤에 댓글 5개 출력
+    height: 12vh;
 
     @media only screen and (max-width: ${BREAK_POINT_PC}px) {
       & {
@@ -312,7 +280,7 @@ const SWrapper = styled.div`
     overflow: auto;
     .comment_box {
       display: flex;
-      height: 5vh;
+      height: 50px;
       align-items: center;
       justify-content: space-between;
       .comment-left {
@@ -367,9 +335,6 @@ const SWrapper = styled.div`
       width: 26vw;
       height: 100%;
     }
-  }
-  .comment_paging_label {
-    float: right;
   }
 `;
 const SSave = styled.div`
