@@ -4,7 +4,7 @@ import UserInfo from '../components/UserInfo';
 import userStore from '../store/userStore';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
-import server from '../utils/CustomApi';
+import axios from 'axios';
 import { BREAK_POINT_TABLET, token } from '../constants/index';
 
 const Profile = () => {
@@ -23,7 +23,10 @@ const Profile = () => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
       try {
-        const response = await server.get(`boards`);
+        const response = await axios.get(`https://myprojectsite.shop/boards`, {
+          // 토큰 추가
+          headers: { Authorization: token },
+        });
         setCodi(response.data.data);
       } catch {
         window.alert('오류가 발생했습니다.');

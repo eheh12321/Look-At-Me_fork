@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import Avatar from '../components/Avatar';
-import server from '../utils/CustomApi';
+import axios from 'axios';
 
 const backendUrl = 'https://myprojectsite.shop/';
 
@@ -22,16 +22,23 @@ function FollowModal(props) {
       try {
         const token = localStorage.getItem('accessToken');
         // eslint-disable-next-line react/prop-types
-        const followurl = props.isFollow
-          ? `members/follow?memberId=${user}&tab=followee`
-          : `members/follow?memberId=${user}&tab=follower`;
-        const res = await server.get(followurl);
+        const follwurl = props.isFollow
+          ? `${backendUrl}members/follow?memberId=${user}&tab=followee`
+          : `${backendUrl}members/follow?memberId=${user}&tab=follower`;
+        const res = await axios.get(
+          follwurl,
+          {
+            headers: { Authorization: token },
+          },
+          { withCredentials: true }
+        );
         if (res) {
           setFollowData(res.data.data);
         }
       } catch (err) {
         console.log(err);
       }
+      // axios 내정보받아오기
     };
     getFollow();
   }, []);

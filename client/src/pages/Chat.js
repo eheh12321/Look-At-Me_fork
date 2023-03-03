@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import Avatar from '../components/Avatar';
 import { useState, useEffect } from 'react';
-import server from '../utils/CustomApi';
+import axios from 'axios';
 import { HiOutlinePaperAirplane } from 'react-icons/hi';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 
@@ -44,8 +44,13 @@ const Chat = () => {
   //게시물에서 채틸누르면 데이터 받는거
   const fetchData = async () => {
     try {
-      const response = await server.get(
-        `message/received/${idData}?page=1&size=100`
+      const response = await axios.get(
+        url + `/message/received/${idData}?page=1&size=100`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
       );
       setChatData(response.data.data);
       console.log(response.data.data);
@@ -56,8 +61,13 @@ const Chat = () => {
   //채팅목록에서 누르면 데이터 받는거
   const fetchListClickData = async () => {
     try {
-      const response = await server.get(
-        `/message/received/${sentId}?page=1&size=100`
+      const response = await axios.get(
+        url + `/message/received/${sentId}?page=1&size=100`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
       );
       setChatData(response.data.data);
     } catch (err) {
@@ -68,7 +78,11 @@ const Chat = () => {
   //목록전체를 받는거
   const fetchListData = async () => {
     try {
-      const response = await server.get(`/message/room`);
+      const response = await axios.get(url + `/message/room`, {
+        headers: {
+          Authorization: token,
+        },
+      });
       setListData(response.data);
     } catch (err) {
       return err;
@@ -76,16 +90,17 @@ const Chat = () => {
   };
 
   const onPostChat = () => {
-    const data = JSON.stringify({
-      content: sentData,
-      receiverNickname: sentName,
-    });
-    server
-      .post(`/message`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+    axios(url + '/message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      data: JSON.stringify({
+        content: sentData,
+        receiverNickname: sentName,
+      }),
+    })
       .then((res) => {
         if (res) {
           fetchData();

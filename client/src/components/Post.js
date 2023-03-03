@@ -5,7 +5,7 @@ import { BsBookmarkHeart, BsBookmarkHeartFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { BREAK_POINT_TABLET, token } from '../constants/index';
-import server from '../utils/CustomApi';
+import axios from 'axios';
 const backendUrl = 'https://myprojectsite.shop/';
 // 게시물 하나에 해당하는 컴포넌트 -게시물 하나에 대한 정보를 나타냄
 const Post = ({ post }) => {
@@ -17,7 +17,13 @@ const Post = ({ post }) => {
   const onClickGood = async (id) => {
     const token = localStorage.getItem('accessToken');
     if (token != null) {
-      const res = await server.post(`boards/${id}/like`);
+      const res = await axios.post(
+        `${backendUrl}boards/${id}/like`, // 좋아요 API
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
       if (res && res?.data) {
         setLikeCnt(res.data.likeCnt);
         setIsLike((prev) => !prev);

@@ -12,8 +12,8 @@ import Avatar from '../components/Avatar';
 import Item from '../components/Item';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { token, BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
-import server from '../utils/CustomApi';
 
 const PostView = () => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const PostView = () => {
   const params = useParams();
   const [detailData, setDetailData] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+  const url = 'https://myprojectsite.shop';
   const name = detailData.member?.nickname;
   const sentId = detailData.member?.memberId;
   const boardId = detailData.boardId;
@@ -38,7 +39,13 @@ const PostView = () => {
   const onClickGood = async (id) => {
     const token = localStorage.getItem('accessToken');
     if (token != null) {
-      const res = await server.post(`boards/${id}/like`);
+      const res = await axios.post(
+        `${url}/boards/${id}/like`, // 좋아요 API
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
       if (res && res?.data) {
         setDetailData((prev) => {
           return { ...prev, like: !prev.like };
@@ -52,7 +59,9 @@ const PostView = () => {
     const fetchData = async () => {
       const token = localStorage.getItem('accessToken');
       try {
-        const response = await server.get(`boards/` + [params.boardId]);
+        const response = await axios.get(url + `/boards/` + [params.boardId], {
+          headers: { Authorization: token },
+        });
         setDetailData(response.data);
         setIsFollowing(response.data.member.follow);
         if (response.data.member.memberId != localStorage.getItem('myId')) {
@@ -66,8 +75,12 @@ const PostView = () => {
   }, []);
   const onPostDelete = () => {
     if (window.confirm('삭제 하시겠습니까?')) {
-      server
-        .delete(`boards/` + [params.boardId])
+      axios(url + `/boards/${params.boardId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: token,
+        },
+      })
         .then((res) => {
           if (res) {
             location.href = '/';
@@ -79,8 +92,14 @@ const PostView = () => {
     }
   };
   const unfollow = async () => {
-    const res = await server.post(
-      `members/follow?op=${detailData.member.memberId}&type=down`
+    const token = localStorage.getItem('accessToken');
+    const res = await axios.post(
+      'https://myprojectsite.shop' +
+        `/members/follow?op=${detailData.member.memberId}&type=down`,
+      {},
+      {
+        headers: { Authorization: token },
+      }
     );
     if (res) {
       setIsFollowing(false);
@@ -90,8 +109,13 @@ const PostView = () => {
   const follow = async () => {
     const token = localStorage.getItem('accessToken');
     if (token != null) {
-      const res = await server.post(
-        `members/follow?op=${detailData.member.memberId}&type=up`
+      const res = await axios.post(
+        'https://myprojectsite.shop' +
+          `/members/follow?op=${detailData.member.memberId}&type=up`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
       );
       if (res) {
         setIsFollowing(true);

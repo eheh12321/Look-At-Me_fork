@@ -3,10 +3,12 @@ import userStore from '../../store/userStore';
 import { CloseOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Signup from '../Signup/Signup';
-import server from '../../utils/CustomApi';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import memberstore from '../../store/memberstore';
+import { persist } from 'zustand';
 import Logo from '../../svg/Logo.svg';
-import jwt_decode from 'jwt-decode';
+import { array } from 'prop-types';
 
 const backendUrl = 'https://myprojectsite.shop/';
 
@@ -58,8 +60,8 @@ function LoginModal(props) {
   };
 
   const SignIn = async () => {
-    const login = await server
-      .post(`auth/login`, {
+    const login = await axios
+      .post(`${backendUrl}auth/login`, {
         email: id,
         password: password,
       })
@@ -69,13 +71,7 @@ function LoginModal(props) {
         localStorage.setItem('accessToken', res.headers.authorization);
         localStorage.setItem('refreshToken', res.headers.refresh);
         localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
-        // Access Token Decode
-        const decoded = jwt_decode(
-          res.headers.authorization.replace('Bearer ', '')
-        );
-        localStorage.setItem('atk_expire', Math.floor(decoded.exp * 1000)); // 토큰 만료시간 저장
-        localStorage.setItem('myId', decoded.memberId);
-
+        localStorage.setItem('myId', JSON.stringify(user_id));
         setUserId(user_id);
         setNickname(user_nickname);
         setisLogin(true);
