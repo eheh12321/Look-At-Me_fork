@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.lookatme.server.auth.dto.LoginResponse;
 import com.lookatme.server.auth.userdetails.MemberDetails;
 import com.lookatme.server.member.entity.Member;
+import com.lookatme.server.member.entity.OauthPlatform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -28,7 +29,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
         log.info(">> 로그인 성공: {}", memberDetails.getUsername());
         String email = (String) request.getAttribute("email");
-        listener.loginSuccess(email);
+        listener.loginSuccess(email, OauthPlatform.NONE);
 
         // 로그인 유저 정보 반환
         Gson gson = new Gson();

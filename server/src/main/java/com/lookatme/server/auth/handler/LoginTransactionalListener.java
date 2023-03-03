@@ -19,8 +19,8 @@ public class LoginTransactionalListener {
 
     private final MemberRepository memberRepository;
 
-    public void loginSuccess(String email) {
-        Member member = memberRepository.findByAccount(new Account(email, OauthPlatform.NONE)).get();
+    public void loginSuccess(String email, OauthPlatform platform) {
+        Member member = memberRepository.findByAccount(new Account(email, platform)).get();
         member.loginSuccess();
     }
 

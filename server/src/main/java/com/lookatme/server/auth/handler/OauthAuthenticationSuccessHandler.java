@@ -31,12 +31,15 @@ public class OauthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
     private final JwtTokenizer jwtTokenizer;
     private final RedisRepository redisRepository;
     private final MemberRepository memberRepository;
+    private final LoginTransactionalListener listener;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
         Member member = getOrRegisterMember(oAuth2User.getAttributes());
+        listener.loginSuccess(member.getEmail(), OauthPlatform.GOOGLE);
+
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 

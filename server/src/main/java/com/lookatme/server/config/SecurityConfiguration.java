@@ -68,7 +68,7 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OauthAuthenticationSuccessHandler(jwtTokenizer, redisRepository, memberRepository))
+                        .successHandler(new OauthAuthenticationSuccessHandler(jwtTokenizer, redisRepository, memberRepository, loginTransactionalListener))
                 );
 
         return http.build();
