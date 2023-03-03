@@ -39,7 +39,7 @@ Loot At Me에서는 다른 사용자들이 올린 다양한 코디를 둘러보�
 
 ## :wrench: 기술 스택
 
-> API 문서, ERD 다이어그램, 피그마 등 문서는 [Github Wiki](https://github.com/codestates-seb/seb41_main_035/wiki)를 참고해주세요 :smiley:
+> API 문서, ERD 다이어그램, 피그마 등 문서는 [Github Wiki](https://github.com/eheh12321/Look-At-Me_fork/wiki)를 참고해주세요 :smiley:
 
 ![2023-02-02 11;03;18](https://user-images.githubusercontent.com/74748851/216216126-290f3a7b-82e6-4575-abfb-e930a67debbc.PNG)
 
