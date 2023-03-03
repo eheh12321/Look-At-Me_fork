@@ -21,6 +21,7 @@ const PostView = () => {
   const params = useParams();
   const [detailData, setDetailData] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+
   const url = 'https://myprojectsite.shop';
   const name = detailData.member?.nickname;
   const sentId = detailData.member?.memberId;
