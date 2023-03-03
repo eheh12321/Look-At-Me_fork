@@ -118,9 +118,4 @@ public class MemberController {
                 HttpStatus.OK
         );
     }
-
-    @GetMapping("/token")
-    public ResponseEntity<?> getAccessTokenOwner(@AuthenticationPrincipal MemberPrincipal memberPrincipal) {
-        return new ResponseEntity<>(memberService.findMember(memberPrincipal.getMemberId()), HttpStatus.OK);
-    }
 }

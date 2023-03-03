@@ -59,7 +59,6 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/members/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/comment/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/auth/reissue").permitAll()
                         .antMatchers( "/auth/**").authenticated()
                         .antMatchers("/comment/**").authenticated()
                         .antMatchers("/members/**").authenticated()
@@ -68,7 +67,7 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OauthAuthenticationSuccessHandler(jwtTokenizer, redisRepository, memberRepository))
+                        .successHandler(new OauthAuthenticationSuccessHandler(jwtTokenizer, memberRepository))
                 );
 
         return http.build();
@@ -78,13 +77,13 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setMaxAge(60 * 60 * 24L); // prefilght 요청 캐싱 (초단위) - 1일
-        configuration.setExposedHeaders(List.of("Authorization"));
+        configuration.setExposedHeaders(List.of("*"));
         configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더 추가
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://lookatme.myprojectsite.shop", "http://mainproject-035.s3-website.ap-northeast-2.amazonaws.com")); // 허용할 도메인
+        configuration.setAllowedOriginPatterns(List.of("*")); // 허용할 도메인
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS")); // 허용할 메서드
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 

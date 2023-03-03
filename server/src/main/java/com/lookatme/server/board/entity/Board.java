@@ -6,11 +6,8 @@ import com.lookatme.server.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,10 +18,9 @@ import java.util.Objects;
                 @NamedAttributeNode(value = "member")
         }
 )
-@Getter @Setter
-@Where(clause = "deleted_at is NULL")
-@SQLDelete(sql = "UPDATE boards SET deleted_at = CURRENT_TIMESTAMP where board_id = ?")
 @Entity
+@Getter
+@Setter
 @Table(name = "boards")
 public class Board extends BaseTimeEntity {
     @Id
@@ -41,8 +37,6 @@ public class Board extends BaseTimeEntity {
 
     @Transient
     private boolean like; // 회원이 해당 게시글을 좋아요 눌렀는지 유무 (테이블 반영 X)
-
-    private LocalDateTime deletedAt; // 삭제 시각
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardProduct> boardProducts = new ArrayList<>();

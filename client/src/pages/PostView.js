@@ -11,24 +11,21 @@ import Comment from '../components/Comment';
 import Avatar from '../components/Avatar';
 import Item from '../components/Item';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { token, BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
-import server from '../utils/CustomApi';
 
 const PostView = () => {
   const navigate = useNavigate();
-  const postDelete = useRef();
   const params = useParams();
   const [detailData, setDetailData] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+
+  const url = 'http://13.125.30.88';
   const name = detailData.member?.nickname;
   const sentId = detailData.member?.memberId;
   const boardId = detailData.boardId;
   const profile = detailData.member?.profileImageUrl;
-  const loginUserProfile =
-    localStorage.getItem('loginUserProfile') == null
-      ? 'https://user-images.githubusercontent.com/74748851/212484014-b22c7726-1091-4b89-a9d5-c97d72b82068.png'
-      : localStorage.getItem('loginUserProfile');
   localStorage.setItem('sentId', JSON.stringify(sentId));
   localStorage.setItem('name', JSON.stringify(name));
   localStorage.setItem('boardId', JSON.stringify(boardId));
@@ -37,51 +34,63 @@ const PostView = () => {
   //좋아요부분
   const onClickGood = async (id) => {
     const token = localStorage.getItem('accessToken');
-    if (token != null) {
-      const res = await server.post(`boards/${id}/like`);
-      if (res && res?.data) {
-        setDetailData((prev) => {
-          return { ...prev, like: !prev.like };
-        });
+    const res = await axios.post(
+      `${url}/boards/${id}/like`, // 좋아요 API
+      {},
+      {
+        headers: { Authorization: token },
       }
-    } else {
-      alert('로그인 하고 좋아요 기능을 이용해보세요!');
+    );
+    if (res && res?.data) {
+      setDetailData((prev) => {
+        return { ...prev, like: !prev.like };
+      });
     }
   };
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('accessToken');
       try {
-        const response = await server.get(`boards/` + [params.boardId]);
+        const response = await axios.get(url + `/boards/` + [params.boardId], {
+          headers: { Authorization: token },
+        });
         setDetailData(response.data);
         setIsFollowing(response.data.member.follow);
-        if (response.data.member.memberId != localStorage.getItem('myId')) {
-          postDelete.current.style.display = 'none';
-        }
       } catch (err) {
         return err;
       }
     };
     fetchData();
   }, []);
+  console.log(isFollowing);
+  console.log(detailData);
   const onPostDelete = () => {
-    if (window.confirm('게시글을 삭제 하시겠습니까?')) {
-      server
-        .delete(`boards/` + [params.boardId])
+    if (window.confirm('삭제 하시겠습니까?')) {
+      axios(url + `/boards/${params.boardId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: token,
+        },
+      })
         .then((res) => {
           if (res) {
             location.href = '/';
           }
         })
         .catch((err) => {
-          console.log(err);
-          alert('오류가 발생했습니다.');
+          return err;
         });
     }
   };
   const unfollow = async () => {
-    const res = await server.post(
-      `members/follow?op=${detailData.member.memberId}&type=down`
+    const token = localStorage.getItem('accessToken');
+    const res = await axios.post(
+      'http://13.125.30.88' +
+        `/members/follow?op=${detailData.member.memberId}&type=down`,
+      {},
+      {
+        headers: { Authorization: token },
+      }
     );
     if (res) {
       setIsFollowing(false);
@@ -90,15 +99,16 @@ const PostView = () => {
 
   const follow = async () => {
     const token = localStorage.getItem('accessToken');
-    if (token != null) {
-      const res = await server.post(
-        `members/follow?op=${detailData.member.memberId}&type=up`
-      );
-      if (res) {
-        setIsFollowing(true);
+    const res = await axios.post(
+      'http://13.125.30.88' +
+        `/members/follow?op=${detailData.member.memberId}&type=up`,
+      {},
+      {
+        headers: { Authorization: token },
       }
-    } else {
-      alert('로그인 하고 팔로우 기능을 이용해보세요!');
+    );
+    if (res) {
+      setIsFollowing(true);
     }
   };
 
@@ -146,11 +156,7 @@ const PostView = () => {
                     <BsChatLeftText
                       size="20"
                       onClick={() => {
-                        if (token != null) {
-                          navigate(`/chatting`);
-                        } else {
-                          alert('로그인 하고 채팅 기능을 이용해보세요!');
-                        }
+                        navigate(`/chatting`);
                       }}
                     />
                     {isFollowing ? (
@@ -175,12 +181,8 @@ const PostView = () => {
               </div>
               <div className="post">{detailData.content}</div>
               <div className="edit-delete">
-                <span
-                  role="presentation"
-                  onClick={onPostDelete}
-                  ref={postDelete}
-                >
-                  삭제
+                <span role="presentation" onClick={onPostDelete}>
+                  Delete
                 </span>
               </div>
             </SMiddle>
@@ -188,7 +190,7 @@ const PostView = () => {
           <span className="products">착용 제품</span>
           <SBottom>
             <Item />
-            <Comment name={name} boardId={boardId} profile={loginUserProfile} />
+            <Comment name={name} boardId={boardId} profile={profile} />
           </SBottom>
         </SContainer>
       </div>
@@ -217,6 +219,7 @@ const SWrapper = styled.div`
 const SContainer = styled.div`
   font-family: 'Gothic A1', sans-serif;
   width: 45vw;
+  height: 750px;
   border: 1px solid lightgray;
   border-radius: 8px;
   margin: 60px 30px;

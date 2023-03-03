@@ -73,7 +73,7 @@ const Hambar = ({ onBarOpen, userId, Logout, onClickButton }) => {
               </div>
             </div>
           )}
-          {/* <SearchBox /> */}
+          <SearchBox />
           <div>
             <p className="title">카테고리</p>
           </div>
@@ -163,7 +163,6 @@ const SWrapper = styled.div`
     width: 100%;
     text-align: right;
     button {
-      width: 100%;
       background-color: white;
       border: none;
       color: gray;
