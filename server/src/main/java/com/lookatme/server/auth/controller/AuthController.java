@@ -55,8 +55,9 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
             @RequestHeader("Authorization") String accessToken,
-            @CookieValue("Refresh") String refreshToken,
+            @RequestHeader("Refresh") String refreshToken,
             HttpServletResponse response) {
+
         // 1. Refresh 토큰에서 회원 식별값(Token Subject) 꺼내옴 -> 회원 조회
         String tokenSubject = authService.getTokenSubject(refreshToken);
 

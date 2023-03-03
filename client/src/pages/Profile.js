@@ -33,6 +33,7 @@ const Profile = () => {
   }, []);
 
   const myCodi = useMemo(() => {
+    console.log(userId);
     return codi.filter((codi) => {
       return codi.member?.memberId === Number(userId);
     });
@@ -44,6 +45,7 @@ const Profile = () => {
       return codi.like === true;
     });
   }, [codi, userId]);
+  console.log('likeCodi', likeCodi);
 
   return (
     <>

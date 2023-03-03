@@ -8,9 +8,12 @@ import memberstore from '../../store/memberstore';
 import Logo from '../../svg/Logo.svg';
 import jwt_decode from 'jwt-decode';
 
+const backendUrl = 'https://myprojectsite.shop/';
+
 function LoginModal(props) {
   const setUserId = userStore((state) => state.setUserId);
   const setNickname = userStore((state) => state.setNickname);
+
   const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -63,8 +66,8 @@ function LoginModal(props) {
       .then((res) => {
         const user_id = res.data.memberId;
         const user_nickname = res.data.nickname;
-        // Access Token - Authorization Header로 받음 / Refresh Token - HttpOnly Cookie로 받음
         localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem('refreshToken', res.headers.refresh);
         localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
         // Access Token Decode
         const decoded = jwt_decode(
@@ -82,8 +85,7 @@ function LoginModal(props) {
         window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
-        // alert(err.response.data.message);
+        alert(err.response.data.message);
       });
     login();
   };
@@ -96,15 +98,15 @@ function LoginModal(props) {
     <Overlay>
       <ModalWrap>
         <CloseOutlined
-          style={{ marginLeft: '85%', marginTop: '5%' }}
+          style={{ 'margin-left': '85%', 'margin-top': '5%' }}
           onClick={closeButton}
         />
         <Contents>
           <h1
             style={{
-              marginBottom: '5%',
+              'margin-bottom': '5%',
               display: 'flex',
-              justifyContent: 'space-evenly',
+              'justify-content': 'space-evenly',
               fontSize: '30px',
               position: 'relative',
               top: '-30px',
@@ -119,14 +121,14 @@ function LoginModal(props) {
             className="id"
             placeholder="아이디"
             style={{
-              fontSize: '14px',
+              'font-size': '14px',
               padding: '12px 12px',
-              backgroundColor: 'gary',
-              borderRadius: '8px',
+              'background-color': 'gary',
+              'border-radius': '8px',
               width: '250px',
               color: 'black',
-              fontWeight: '200',
-              marginTop: '-30px',
+              'font-weight': '200',
+              'margin-top': '-30px',
               position: 'relative',
               border: '1.5px solid #C1C1C1',
               top: '-20px',
@@ -138,14 +140,14 @@ function LoginModal(props) {
             placeholder="비밀번호"
             type="password"
             style={{
-              fontSize: '14px',
+              'font-size': '14px',
               padding: '12px 12px',
               width: '250px',
-              backgroundColor: 'gary',
-              borderRadius: '8px',
+              'background-color': 'gary',
+              'border-radius': '8px',
               color: 'black',
-              fontWeight: '200',
-              marginTop: '-30px',
+              'font-weight': '200',
+              'margin-top': '-30px',
               position: 'relative',
               top: '0px',
               border: '1.5px solid #C1C1C1',
@@ -158,10 +160,10 @@ function LoginModal(props) {
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              marginTop: '17px',
-              marginBottom: '10px',
-              justifyContent: 'center',
+              'align-items': 'center',
+              'margin-top': '17px',
+              'margin-bottom': '10px',
+              'justify-content': 'center',
             }}
           >
             <div>아직 회원이 아니신가요?</div>

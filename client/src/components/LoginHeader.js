@@ -12,7 +12,6 @@ import server from '../utils/CustomApi';
 import Logo from '../svg/Logo.svg';
 import { BREAK_POINT_PC, BREAK_POINT_TABLET } from '../constants/index';
 import Hambar from './HamBar';
-import { removeCookie } from '../utils/Cookies';
 const backendUrl = 'https://myprojectsite.shop/';
 
 const LoginHeader = () => {
@@ -42,7 +41,6 @@ const LoginHeader = () => {
         setisLogin(false);
         setUserId('');
         setNickname('');
-        removeCookie('Refresh');
         window.location.reload();
       });
     }

@@ -1,7 +1,6 @@
 package com.lookatme.server.auth.handler;
 
 import com.lookatme.server.auth.jwt.JwtTokenizer;
-import com.lookatme.server.auth.jwt.RedisRepository;
 import com.lookatme.server.member.entity.Account;
 import com.lookatme.server.member.entity.Member;
 import com.lookatme.server.member.entity.OauthPlatform;
@@ -16,7 +15,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,7 +27,6 @@ import java.util.Map;
 public class OauthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenizer jwtTokenizer;
-    private final RedisRepository redisRepository;
     private final MemberRepository memberRepository;
 
     @Override
@@ -40,19 +37,7 @@ public class OauthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
-        // Refresh Token은 HttpOnly Cookie를 통한 전달
-        Cookie cookie = new Cookie("Refresh", refreshToken);
-        cookie.setMaxAge(jwtTokenizer.getRefreshTokenExpirationMinutes() * 60);
-        cookie.setDomain("myprojectsite.shop");
-        cookie.setSecure(true); // HTTPS 환경에서만 이용 가능
-        cookie.setHttpOnly(true); // 클라이언트 측에서 XSS(악성 스크립트 공격)로 탈취 방지
-        cookie.setPath("/auth/reissue"); // 토큰 재발급 시에만 전송
-        response.addCookie(cookie);
-
-        // Redis 저장소에 RefreshToken을 저장
-        redisRepository.saveRefreshToken(refreshToken, member.getUniqueKey());
-
-        String uri = createURI(accessToken).toString();
+        String uri = createURI(accessToken, refreshToken).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
@@ -101,9 +86,10 @@ public class OauthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
         return nickname;
     }
 
-    private URI createURI(String accessToken) {
+    private URI createURI(String accessToken, String refreshToken) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
+        queryParams.add("refresh_token", refreshToken);
 
         return UriComponentsBuilder
                 .newInstance()
