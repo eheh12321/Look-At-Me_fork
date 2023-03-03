@@ -29,7 +29,7 @@ const SearchBox = () => {
       try {
         const response = await axios.get(`https://myprojectsite.shop/boards`);
         setData(response.data.data);
-        // console.log(response.data.data);
+        console.log(response.data.data);
       } catch {
         window.alert('오류가 발생했습니다.');
       }

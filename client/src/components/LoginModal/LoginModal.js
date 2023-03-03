@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 import memberstore from '../../store/memberstore';
 import { persist } from 'zustand';
 import Logo from '../../svg/Logo.svg';
-import { array } from 'prop-types';
 
 const backendUrl = 'https://myprojectsite.shop/';
 
 function LoginModal(props) {
   const setUserId = userStore((state) => state.setUserId);
+  // 추가부분
   const setNickname = userStore((state) => state.setNickname);
 
   const [signUp, setSignUp] = useState(false);
@@ -60,30 +60,27 @@ function LoginModal(props) {
   };
 
   const SignIn = async () => {
-    const login = await axios
-      .post(`${backendUrl}auth/login`, {
-        email: id,
-        password: password,
-      })
-      .then((res) => {
-        const user_id = res.data.memberId;
-        const user_nickname = res.data.nickname;
-        localStorage.setItem('accessToken', res.headers.authorization);
-        localStorage.setItem('refreshToken', res.headers.refresh);
-        localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
-        localStorage.setItem('myId', JSON.stringify(user_id));
-        setUserId(user_id);
-        setNickname(user_nickname);
-        setisLogin(true);
+    if (validationCheck(id, 'email') && validationCheck(password, 'password'))
+      return true;
+    const res = await axios.post(`${backendUrl}auth/login`, {
+      email: id,
+      password: password,
+    });
+    if (res) {
+      localStorage.setItem('accessToken', res.headers.authorization);
+      localStorage.setItem('refreshToken', res.headers.refresh);
+      const user_id = res.data.memberId;
+      setUserId(user_id);
 
-        // eslint-disable-next-line react/prop-types
-        props.onClose();
-        window.location.reload();
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    login();
+      // 추가부분
+      const user_nickname = res.data.nickname;
+      setNickname(user_nickname);
+
+      // eslint-disable-next-line react/prop-types
+      props.onClose();
+    }
+    setisLogin(true);
+    // axios sign in
   };
 
   const goSignUp = () => {

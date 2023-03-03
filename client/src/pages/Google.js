@@ -1,50 +1,22 @@
 import styled from 'styled-components';
-import userStore from '../store/userStore';
 import memberstore from '../store/memberstore';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 
 const Google = () => {
-  const setUserId = userStore((state) => state.setUserId);
-  const setNickname = userStore((state) => state.setNickname);
-  const { isLogin, setisLogin } = memberstore((state) => state);
+  const { setisLogin } = memberstore((state) => state);
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
-    const urlParams = new URL(location.href).searchParams;
-    const accessToken = urlParams.get('access_token');
-    const refreshToken = urlParams.get('refresh_token');
+    const accessToken = params.access_token;
+    const refreshToken = params.refresh_token;
+
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     setisLogin(true);
 
-    const getMember = async () => {
-      await axios
-        .get(`https://myprojectsite.shop/members/token`, {
-          params: {},
-          headers: {
-            Authorization: accessToken,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          if (res) {
-            setUserId(res.data.memberId);
-            setNickname(res.data.nickname);
-            localStorage.setItem('myId', res.data.memberId);
-            localStorage.setItem('loginUserProfile', res.data.profileImageUrl);
-            window.location.href = '/';
-          } else {
-            console.log(res);
-          }
-        })
-        .catch((err) => {
-          console.log('err');
-          return err;
-        });
-    };
-    getMember();
+    navigate('/');
   }, []);
   return <></>;
 };

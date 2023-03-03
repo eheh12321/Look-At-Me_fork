@@ -19,9 +19,9 @@ const LoginHeader = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { userId, setUserId } = userStore((state) => state);
-  const setNickname = userStore((state) => state.setNickname);
   const [isBarOpen, setIsBarOpen] = useState(false);
   const myId = JSON.parse(localStorage.getItem('myId'));
+  console.log(myId);
   const onClickButton = () => {
     setIsOpen(true);
   };
@@ -29,27 +29,20 @@ const LoginHeader = () => {
     setIsBarOpen((prev) => !prev);
   };
   const Logout = async () => {
-    if (confirm('로그아웃 하시겠습니까?')) {
-      const token = localStorage.getItem('accessToken');
-      const res = await axios.post(
-        `${backendUrl}auth/logout`,
-        {},
-        {
-          headers: { Authorization: token },
-        }
-      );
-      if (res) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('myId');
-        localStorage.removeItem('loginUserProfile');
-        // eslint-disable-next-line react/prop-types
+    const token = localStorage.getItem('accessToken');
+    const res = await axios.post(
+      `${backendUrl}auth/logout`,
+      {},
+      {
+        headers: { Authorization: token },
       }
-      setisLogin(false);
-      setUserId('');
-      setNickname('');
-      window.location.reload();
+    );
+    if (res) {
+      localStorage.removeItem('accessToken');
+      // eslint-disable-next-line react/prop-types
     }
+    setisLogin(false);
+    setUserId('');
   };
 
   return (
