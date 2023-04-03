@@ -72,7 +72,6 @@ public class BoardMapperImpl implements BoardMapper {
         boardResponseDto.likeCnt( board.getLikeCnt() );
         boardResponseDto.like( board.isLike() );
         boardResponseDto.member( memberToResponseWithFollow( board.getMember() ) );
-        boardResponseDto.comments( commentListToCommentResponseDtoV2List( board.getComments() ) );
 
         return boardResponseDto.build();
     }
