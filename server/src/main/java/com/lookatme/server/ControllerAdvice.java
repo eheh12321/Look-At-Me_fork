@@ -49,8 +49,8 @@ public class ControllerAdvice {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleException(Exception e) {
+    public ErrorResponseDto handleException(Exception e) {
         log.error(ERROR_MESSAGE, e.getMessage());
-        return e.getMessage();
+        return new ErrorResponseDto(ErrorCode.EXCEPTION);
     }
 }

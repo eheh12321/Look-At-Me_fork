@@ -31,21 +31,21 @@ public class Rental extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "product_id",
-            foreignKey = @ForeignKey(name = "FK_product")
+            foreignKey = @ForeignKey(name = "FK_rental_product")
     )
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "member_id",
-            foreignKey = @ForeignKey(name = "FK_member")
+            foreignKey = @ForeignKey(name = "FK_rental_member")
     )
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "board_id",
-            foreignKey = @ForeignKey(name = "FK_board")
+            foreignKey = @ForeignKey(name = "FK_rental_board")
     )
     private Board board;
 
