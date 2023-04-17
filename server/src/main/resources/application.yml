@@ -5,6 +5,11 @@ spring:
       path: /h2
   datasource:
     url: jdbc:h2:mem:test
+    hikari:
+      maximum-pool-size: 10 # 스레드 풀의 최대 크기
+      minimum-idle: 10 # 최초 스레드 생성 개수
+      max-lifetime: 1000 # 커넥션 풀에서 사용되지 않는 idle 커넥션이 얼마동안 생존해 있을 것인지 (ms)
+      connection-timeout: 20000 # 쓰레드가 Connection을 얻기위해 대기하는 시간 (ms)
   jpa:
     hibernate:
       ddl-auto: create
@@ -41,6 +46,13 @@ server:
   servlet:
     encoding:
       charset: UTF-8
+  tomcat:
+    connection-timeout: 10 # 커넥션 타임아웃 시간 (초)
+    max-connections: 8192 # 주어진 시간 내에 처리할 수 있는 최대 커넥션 (최대 커넥션에 도달하면 이후 메시지는 대기 큐에 추가)
+    accept-count: 100 # 대기 큐의 길이 (대기 큐가 꽉 차면 스레드를 새로 추가)
+    threads:
+      max: 200 # Maximum amount of worker threads (스레드 허용치가 최대이고, 대기 큐까지 꽉 찬 상태라면 Connection Refused 에러를 던짐)
+      min-spare: 10 # Minimum amount of worker threads (Core Size, 최초 생성 개수)
 jwt:
   secret-key: qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123qwe123
   access-token-expiration-minutes: 360
@@ -65,6 +77,16 @@ logging:
         orm:
           jpa: debug
     root: info
+  pattern:
+    file: "%-5level %d{yy-MM-dd HH:mm:SSS}[%thread] %logger[%method:%line] - %msg%n"
+  file:
+    name: ./log/lookatme.log # 로그 파일 이름 (아래 LOG_FILE 안에 들어감)
+    path:
+  logback:
+    rollingpolicy:
+      file-name-pattern: ./log/%d{yyyy-MM-dd_HH}.%i.log # Pattern for rolled-over log file names. (%d, %i 필수)
+      max-file-size: 10MB # Maximum log file size.
+      max-history: 30 # Maximum number of archive log files to keep.
 
 ---
 # 무중단 배포를 위한 설정 (8081 포트 설정)
