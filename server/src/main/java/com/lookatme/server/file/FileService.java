@@ -2,7 +2,9 @@ package com.lookatme.server.file;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.lookatme.server.exception.ErrorCode;
 import com.lookatme.server.exception.ErrorLogicException;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Optional;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,12 +40,58 @@ public class FileService {
         }
     }
 
+    public Set<String> readCsvFile(String fileName) {
+        Set<String> set = new HashSet<>();
+        String workingDirectory = System.getProperty("user.dir");
+        String absoluteFilePath = String.format("%s\\%s.csv", workingDirectory, fileName);
+        String line;
+        // Try-with-resources (AutoClosable)
+        try (
+                BufferedReader reader = new BufferedReader(new FileReader(absoluteFilePath))
+        ) {
+            while ((line = reader.readLine()) != null) {
+                set.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return set;
+    }
+
+    public int writeCsvFile(Set<String> data, String fileName) {
+        try (
+                BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("%s.csv", fileName)));
+        ) {
+            for (String line : data) {
+                writer.write(String.format("%s\n", line));
+            }
+            writer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return data.size();
+    }
+
     private String upload(File file, String dirName, String fileType) {
         String fileName = String.format("%s/%s.%s", dirName, UUID.randomUUID(), fileType);
         putS3(file, fileName);
         removeNewFile(file);
 
         return cdnDomain + fileName;
+    }
+
+    public Set<String> getFileNames(String prefix) {
+        Set<String> fileNames = new HashSet<>();
+        ObjectListing objectListing = amazonS3Client.listObjects(bucket, String.format("%s/", prefix));
+        if(objectListing != null) {
+            List<S3ObjectSummary> objectSummaryList = objectListing.getObjectSummaries();
+            if(!objectSummaryList.isEmpty()) {
+                for (S3ObjectSummary summary : objectSummaryList) {
+                    fileNames.add(summary.getKey());
+                }
+            }
+        }
+        return fileNames;
     }
 
     private void putS3(File uploadFile, String fileName) {
